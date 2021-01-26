@@ -1,0 +1,75 @@
+.hero {
+  margin: 0 auto;
+  height: calc(100vh - #{$header-height});
+  overflow: hidden;
+  padding: $header-padding;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  @include lg {
+    flex-direction: row-reverse;
+  }
+
+  &__content {
+    text-align: center;
+
+    @include md {
+      text-align: left;
+      max-width: 32rem;
+    }
+  }
+
+  &__title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__subtitle {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  &__text {
+    font-weight: 300;
+  }
+
+  &__cta {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    justify-content: stretch;
+
+    > * {
+      margin-top: 0.5rem;
+    }
+
+    @include md {
+      flex-direction: row;
+      justify-content: center;
+      > *:last-child {
+        margin-left: 0.5rem;
+      }
+    }
+
+    @include lg {
+      justify-content: start;
+    }
+  }
+
+  &__image {
+    width: 20rem;
+    height: 20rem;
+
+    @include md {
+      width: 32rem;
+      height: 24rem;
+    }
+
+    @include lg {
+      margin-left: auto;
+    }
+  }
+}

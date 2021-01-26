@@ -1,0 +1,111 @@
+.nav {
+  @include md {
+    margin-left: auto;
+  }
+
+  &__list {
+    transition: transform 0.7s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: $header-height;
+    width: 100%;
+
+    z-index: 9;
+    transform: translate(calc(-0% + #{$header-padding}), -1%);
+
+    &.active {
+      transform: translate(calc(-100% + #{$header-padding}), -1%);
+    }
+
+    @include md {
+      position: inherit;
+      flex-direction: row;
+      transform: translate(0, 0);
+
+      &.active {
+        transform: translate(0, 0);
+      }
+    }
+  }
+
+  &__item {
+    background-color: #f3f4f6;
+
+    @include md {
+      background-color: transparent;
+      margin: $header-padding 1rem;
+      display: flex;
+      align-items: center;
+
+      @include lg {
+        margin: 0 0.75rem;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+        margin-left: 2rem;
+
+        & > .nav__link {
+          color: white;
+          background-color: $primary;
+          border-radius: 0.5rem;
+          padding: 0.25rem 1rem;
+
+          &:hover {
+            background-color: lighten($primary, 20%);
+          }
+        }
+      }
+    }
+  }
+
+  &__link {
+    display: flex;
+    padding: 1rem $header-padding;
+    font-weight: 500;
+    align-items: center;
+
+    @include md {
+      background-color: transparent;
+      padding: 0;
+    }
+
+    &:hover {
+      background-color: darken(#f3f4f6, 10%);
+
+      @include md {
+        background-color: transparent;
+        color: darken(#f3f4f6, 25%);
+      }
+    }
+
+    &.active {
+      width: 100%;
+      background-color: $primary;
+      color: white;
+
+      @include md {
+        background-color: transparent;
+        color: $primary;
+      }
+
+      &:hover {
+        background-color: lighten($primary, 20%);
+
+        @include md {
+          background-color: transparent;
+          color: darken(#f3f4f6, 25%);
+        }
+      }
+    }
+  }
+
+  &__icon {
+    margin-right: 0.4rem;
+  }
+}

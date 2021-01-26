@@ -1,0 +1,47 @@
+.footer {
+  background-color: #1f2937;
+  height: $header-height;
+  color: rgba(156, 163, 175, 1);
+  display: flex;
+  align-items: center;
+  padding: $header-padding;
+
+  &-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  &__text {
+    font-weight: 700;
+
+    &--white {
+      color: white;
+    }
+  }
+
+  &__social {
+    display: flex;
+
+    &-link {
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    &-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.125rem;
+      display: flex;
+      align-items: center;
+      fill: rgba(156, 163, 175, 1);
+
+      &:hover {
+        fill: white;
+      }
+    }
+  }
+}
