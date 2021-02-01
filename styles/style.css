@@ -44,7 +44,7 @@
 }
 
 .header__title--orange {
-  color: #e46d43;
+  color: #27a462;
 }
 
 @media (min-width: 48rem) {
@@ -130,12 +130,12 @@
   }
   .nav__item:last-child > .nav__link {
     color: white;
-    background-color: #e46d43;
+    background-color: #27a462;
     border-radius: 0.5rem;
     padding: 0.4rem 1rem;
   }
   .nav__item:last-child > .nav__link:hover {
-    background-color: #f1b29c;
+    background-color: #59d895;
   }
   .nav__item:last-child > .nav__link:hover.active {
     color: white;
@@ -176,19 +176,19 @@
 
 .nav__link.active {
   width: 100%;
-  background-color: #e46d43;
+  background-color: #27a462;
   color: white;
 }
 
 @media (min-width: 48rem) {
   .nav__link.active {
     background-color: transparent;
-    color: #e46d43;
+    color: #27a462;
   }
 }
 
 .nav__link.active:hover {
-  background-color: #f1b29c;
+  background-color: #59d895;
 }
 
 @media (min-width: 48rem) {
@@ -431,7 +431,7 @@
 }
 
 .login__input:focus {
-  border-color: #e46d43;
+  border-color: #27a462;
 }
 
 .login__submit {
@@ -544,19 +544,19 @@
 }
 
 .button--primary, .login__submit {
-  background-color: #e46d43;
+  background-color: #27a462;
   color: white;
 }
 
 .button--primary:hover, .login__submit:hover {
-  background-color: #ea9070;
+  background-color: #31cd7b;
 }
 
 .button--secondary {
-  color: #e46d43;
+  color: #27a462;
 }
 
 .button--secondary:hover {
-  color: #ea9070;
+  color: #31cd7b;
 }
 /*# sourceMappingURL=style.css.map */
