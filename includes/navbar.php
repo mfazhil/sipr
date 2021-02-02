@@ -1,7 +1,7 @@
 <?php
 function addActiveClass(String $pageName): String
 {
-  if ($_SERVER["REQUEST_URI"] == "/sipr/" && $pageName == "index") return "active";
+  if ($pageName == "index") return "active";
   return strpos($_SERVER["REQUEST_URI"], $pageName) != false ? "active" : "";
 }
 ?>
