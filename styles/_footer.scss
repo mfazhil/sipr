@@ -4,13 +4,14 @@
   color: rgba(156, 163, 175, 1);
   display: flex;
   align-items: center;
-  padding: $header-padding;
+  padding: 0 $header-padding;
 
   &-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    height: 100%;
   }
 
   &__text {

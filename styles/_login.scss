@@ -1,0 +1,95 @@
+.login {
+  margin: 0 auto;
+  height: calc(100vh - #{$header-height});
+  overflow: hidden;
+  padding: $header-padding;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  align-items: center;
+
+  @include lg {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  &__image {
+    display: none;
+    width: 20rem;
+    height: 20rem;
+    justify-self: center;
+
+    @include md {
+      display: block;
+      width: 80%;
+      height: 80%;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    @include lg {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2.25rem 2rem;
+    }
+  }
+
+  &__header {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 20%;
+
+    &--line-break {
+      display: block;
+      @include md {
+        display: inline;
+      }
+    }
+
+    @include md {
+      text-align: center;
+      margin-bottom: 5%;
+    }
+
+    @include lg {
+      font-size: 1.5rem;
+      margin-bottom: 10%;
+    }
+  }
+
+  &__label {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+
+    @include lg {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__input {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-width: 0.2rem;
+    border-color: white;
+    outline: none;
+
+    @include lg {
+      background-color: #f4f5f7;
+      font-size: 1rem;
+    }
+
+    &:focus {
+      border-color: $primary;
+    }
+  }
+
+  &__submit {
+    @extend .button--primary;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+}
