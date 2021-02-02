@@ -97,7 +97,7 @@
 
       <div class="hero__cta">
         <a href="/" class="button--primary">Penilaian</a>
-        <a href="/" class="button--secondary">Lihat Data Ruangan</a>
+        <a href="data_ruangan.php" class="button--secondary">Lihat Data Ruangan</a>
       </div>
     </div>
   </main>
