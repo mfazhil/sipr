@@ -116,7 +116,7 @@ function addActiveClass(String $pageName): String
                     Data Ruangan
                   </a>
                 </li>
-                <li class="nav__item">
+                 <li class="nav__item">
                   <a href="./logout.php" class="nav__link <?= addActiveClass("login") ?>">
                   <span class="md:font-bold">Logout</span>                    
                     <svg class="w-5 h-5 nav__iconout" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="transform: scaleX(-1); margin-left: 0.4rem;">
