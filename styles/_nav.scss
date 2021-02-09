@@ -120,4 +120,9 @@
   &__icon {
     margin-right: 0.4rem;
   }
+
+  &__iconout {
+    transform: scaleX(-1); 
+    margin-left: 0.4rem;
+  }
 }

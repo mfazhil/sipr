@@ -96,7 +96,7 @@
       <p class="hero__text">Sebuah sistem untuk menjaga kebersihan dan kesterilan ruangan di rumah sakit pada masa pandemi.</p>
 
       <div class="hero__cta">
-        <a href="/" class="button--primary">Penilaian</a>
+        <a href="penilaian.php" class="button--primary">Penilaian</a>
         <a href="data_ruangan.php" class="button--secondary">Lihat Data Ruangan</a>
       </div>
     </div>

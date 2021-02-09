@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,15 +110,15 @@
       </g>
     </svg>
 
-    <form class="login__form lg:shadow" action="" method="post">
+    <form action="ceklogin.php" method="POST" class="login__form lg:shadow" action="" method="post">
       <h2 class="login__header"><span class="login__header--line-break">Masuk</span> ke akun Anda</h2>
       <label class="login__label" for="email">Username</label>
       <input class="login__input" type="text" name="username" id="email" placeholder="Masukkan username" autofocus />
       <label class="login__label" for="Password">Password</label>
       <input class="login__input" type="password" name="password" id="password" placeholder="Masukkan password" />
-      <input class="login__submit" type="submit" value="Login" />
+      <input class="login__submit" type="submit" name="submit" value="Login" />
     </form>
-  </main>
+  </main
 
   <?php require "includes/footer.php"; ?>
 </body>
