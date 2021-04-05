@@ -1,12 +1,14 @@
 .footer {
-  background-color: #1f2937;
+  background-color: hsl(215, 28%, 17%);
   height: $header-height;
-  color: rgba(156, 163, 175, 1);
+  color: hsl(218, 11%, 65%);
   display: flex;
   align-items: center;
   padding: 0 $header-padding;
 
   &-wrapper {
+    @extend %container;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,7 +20,7 @@
     font-weight: 700;
 
     &--white {
-      color: white;
+      color: hsl(0, 0%, 95%);
     }
   }
 
@@ -38,10 +40,10 @@
       font-size: 1.125rem;
       display: flex;
       align-items: center;
-      fill: rgba(156, 163, 175, 1);
+      fill: hsl(218, 11%, 65%);
 
       &:hover {
-        fill: white;
+        fill: hsl(0, 0%, 95%);
       }
     }
   }

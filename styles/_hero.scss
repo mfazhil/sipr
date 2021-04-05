@@ -1,12 +1,19 @@
 .hero {
-  margin: 0 auto;
+  @extend %container;
+
+  margin-inline: auto;
   height: calc(100vh - #{$header-height});
   overflow: hidden;
-  padding: $header-padding;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  padding-bottom: $header-padding;
+
+  @include sm {
+    padding: $header-padding;
+  }
 
   @include lg {
     flex-direction: row-reverse;
@@ -44,11 +51,22 @@
 
     > * {
       margin-top: 0.5rem;
+
+      &:first-child {
+        margin-inline: 2rem;
+      }
+
+      @include sm {
+        &:first-child {
+          margin-inline: 0;
+        }
+      }
     }
 
     @include md {
       flex-direction: row;
       justify-content: center;
+
       > *:last-child {
         margin-left: 0.5rem;
       }

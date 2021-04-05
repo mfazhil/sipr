@@ -1,11 +1,17 @@
 .login {
+  @extend %container;
+
   margin: 0 auto;
   height: calc(100vh - #{$header-height});
   overflow: hidden;
-  padding: $header-padding;
+  padding: $header-padding 0;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   align-items: center;
+
+  @include md {
+    padding: $header-padding;
+  }
 
   @include lg {
     grid-template-columns: 2fr 1fr;
@@ -27,18 +33,24 @@
   &__form {
     display: flex;
     flex-direction: column;
+    padding: 2.25rem 2rem;
 
     @include lg {
       background-color: white;
       border-radius: 1rem;
-      padding: 2.25rem 2rem;
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+        rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     }
   }
 
   &__header {
     font-size: 2.25rem;
     font-weight: 700;
-    margin-bottom: 20%;
+    margin-bottom: 10%;
+
+    @include md {
+      margin-bottom: 20%;
+    }
 
     &--line-break {
       display: block;
@@ -75,6 +87,7 @@
     margin-bottom: 1.5rem;
     border-width: 0.2rem;
     border-color: white;
+    border-style: solid;
     outline: none;
 
     @include lg {
@@ -89,7 +102,15 @@
 
   &__submit {
     @extend .button--primary;
+
+    line-height: 1.5;
     cursor: pointer;
     margin-top: 1rem;
+  }
+
+  &__alert {
+    font-weight: 600;
+    color: hsl(0, 72%, 51%);
+    text-align: center;
   }
 }

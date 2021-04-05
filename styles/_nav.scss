@@ -10,12 +10,18 @@
     position: fixed;
     top: $header-height;
     width: 100%;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+
+    @include md {
+      box-shadow: none;
+    }
 
     z-index: 9;
-    transform: translate(calc(-0% + #{$header-padding}), -1%);
+    transform: translate(10%, -2%);
 
     &.active {
-      transform: translate(calc(-100% + #{$header-padding}), -1%);
+      transform: translate(-97.5%, -2%);
     }
 
     @include md {
@@ -115,14 +121,24 @@
         }
       }
     }
+
+    @include md {
+      > span {
+        font-weight: 700;
+      }
+    }
   }
 
   &__icon {
+    width: 1.25rem;
+    height: 1.25rem;
     margin-right: 0.4rem;
   }
 
   &__iconout {
-    transform: scaleX(-1); 
+    width: 1.25rem;
+    height: 1.25rem;
+    transform: scaleX(-1);
     margin-left: 0.4rem;
   }
 }

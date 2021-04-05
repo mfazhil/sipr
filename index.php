@@ -4,16 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./vendors/tailwind/tailwind.css" />
+  <link rel="stylesheet" href="./vendors/normalize/normalize.css" />
   <link rel="stylesheet" href="./styles/style.css" />
   <script src="./vendors/jquery/jquery.js"></script>
-  <title>SIPR | Beranda</title>
+  <title>SIPR</title>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body>
   <?php require "includes/navbar.php"; ?>
 
-  <main class="hero container">
+  <main class="hero">
     <svg class="hero__image" id="b43bf247-fd00-4c66-86de-2f4e4870ba29" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1113.58" height="784.41" viewBox="0 0 1113.58 784.41">
       <defs>
         <linearGradient id="e697e668-bf6d-4d5c-9412-9fae30629717" x1="990.77" y1="609.55" x2="1147.32" y2="609.55" gradientTransform="matrix(-1, 0, 0, 1, 2040, 0)" gradientUnits="userSpaceOnUse">

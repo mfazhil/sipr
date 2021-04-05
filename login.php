@@ -1,20 +1,39 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./vendors/tailwind/tailwind.css" />
+  <link rel="stylesheet" href="./vendors/normalize/normalize.css" />
   <link rel="stylesheet" href="./styles/style.css" />
   <script src="./vendors/jquery/jquery.js"></script>
-  <title>SIPR | Login</title>
+  <title>Login | SIPR</title>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body>
   <?php require "includes/navbar.php"; ?>
 
-  <main class="container login">
+  <?php
+  if (count($_SESSION) > 0) return header("Location: ./");
+  $error = 0;
+
+  if (count($_POST) > 0) {
+    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+    $password = $_POST["password"];
+
+    if ($username === 'admin' && $password === 'admin') {
+      $_SESSION["role"] = 'admin';
+    } elseif ($username === 'user' && $password === 'user') {
+      $_SESSION["role"] = 'user';
+    } else {
+      $error = 1;
+    }
+
+    if ($error === 0) return header("Location: ./");
+  }
+  ?>
+
+  <main class="login">
     <svg class="login__image" id="f9eb83fe-2109-496c-8de2-d29751931755" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1166.17" height="805.09" viewBox="0 0 1166.17 805.09">
       <defs>
         <linearGradient id="b7f84a8b-804f-4004-8d61-2f9b427d4893" x1="785.51" y1="659.88" x2="938.51" y2="659.88" gradientUnits="userSpaceOnUse">
@@ -110,15 +129,18 @@
       </g>
     </svg>
 
-    <form action="ceklogin.php" method="POST" class="login__form lg:shadow" action="" method="post">
+    <form class="login__form" method="POST">
       <h2 class="login__header"><span class="login__header--line-break">Masuk</span> ke akun Anda</h2>
-      <label class="login__label" for="email">Username</label>
-      <input class="login__input" type="text" name="username" id="email" placeholder="Masukkan username" autofocus />
+      <label class="login__label" for="username">Username</label>
+      <input class="login__input" type="text" name="username" id="username" placeholder="Masukkan username" autofocus />
       <label class="login__label" for="Password">Password</label>
       <input class="login__input" type="password" name="password" id="password" placeholder="Masukkan password" />
-      <input class="login__submit" type="submit" name="submit" value="Login" />
+      <?php if ($error === 1) { ?>
+        <div class="login__alert">Username dan password tidak cocok!</div>
+      <?php } ?>
+      <button class="login__submit" type="submit" name="submit">Login</button>
     </form>
-  </main
+  </main>
 
   <?php require "includes/footer.php"; ?>
 </body>

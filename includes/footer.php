@@ -1,5 +1,5 @@
 <footer class="footer">
-  <div class="footer-wrapper container">
+  <div class="footer-wrapper">
     <div class="footer__text">© 2021 <span class="footer__text--white">Muhammad Fazhil</span></div>
     <div class="footer__social">
       <a href="https://github.com/mfazhil" class="footer__social-link">
