@@ -1,14 +1,17 @@
+@use '../abstracts/' as *;
+@use '../utilities/' as *;
+
 .footer {
   background-color: hsl(215, 28%, 17%);
   height: $header-height;
   color: hsl(218, 11%, 65%);
   display: flex;
   align-items: center;
-  padding: 0 $header-padding;
 
   &-wrapper {
     @extend %container;
 
+    padding: 0 $header-padding;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,6 +44,7 @@
       display: flex;
       align-items: center;
       fill: hsl(218, 11%, 65%);
+      transition: fill 250ms ease-in-out;
 
       &:hover {
         fill: hsl(0, 0%, 95%);

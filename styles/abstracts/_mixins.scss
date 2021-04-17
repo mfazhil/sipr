@@ -1,7 +1,4 @@
-$sm: 40rem;
-$md: 48rem;
-$lg: 64rem;
-$xl: 80rem;
+@use 'variables' as *;
 
 @mixin sm {
   @media (min-width: #{$sm}) {

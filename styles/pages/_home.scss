@@ -1,4 +1,7 @@
-.hero {
+@use '../abstracts' as *;
+@use '../utilities/' as *;
+
+.home {
   @extend %container;
 
   margin-inline: auto;
@@ -8,12 +11,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  padding-bottom: $header-padding;
-
-  @include sm {
-    padding: $header-padding;
-  }
+  padding: $header-padding;
 
   @include lg {
     flex-direction: row-reverse;
@@ -31,7 +29,7 @@
   &__title {
     font-size: 4.5rem;
     font-weight: 700;
-    line-height: 1;
+    margin: 0;
   }
 
   &__subtitle {

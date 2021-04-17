@@ -1,23 +1,19 @@
+@use '../abstracts' as *;
+@use '../utilities' as *;
+
 .header {
-  height: 2.5rem;
+  height: 4rem;
   background-color: white;
   position: sticky;
   top: 0;
-  max-width: 100vw;
+  width: 100%;
   z-index: 10;
-  padding: $header-padding;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
-  @include md {
-    height: $header-height;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
   &-wrapper {
     @extend %container;
-
+    padding: 0 $header-padding;
     display: flex;
     align-items: center;
     transition: all 0.3s ease-in-out;
@@ -38,7 +34,7 @@
     font-weight: 700;
 
     &--green {
-      @extend .header__title;
+      @extend %title;
       color: $primary;
 
       &:last-child {

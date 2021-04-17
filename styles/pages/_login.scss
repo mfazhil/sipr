@@ -1,3 +1,7 @@
+@use '../abstracts' as *;
+@use '../components' as *;
+@use '../utilities' as *;
+
 .login {
   @extend %container;
 
@@ -81,7 +85,8 @@
   }
 
   &__input {
-    padding: 0.75rem 1.5rem;
+    background-color: #f4f5f7;
+    padding: 1rem 1.5rem;
     font-size: 1.25rem;
     border-radius: 0.5rem;
     margin-bottom: 1.5rem;
@@ -89,8 +94,10 @@
     border-color: white;
     border-style: solid;
     outline: none;
+    transition: border-color 250ms ease-in-out;
 
     @include lg {
+      padding: 0.75rem 1.5rem;
       background-color: #f4f5f7;
       font-size: 1rem;
     }
