@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <?php require "includes/navbar.php"; ?>
+  <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
   <main class="home">
     <img class="home__image" src="./images/home-illustration.svg" alt="SIPR">
@@ -20,13 +20,13 @@
       <p class="home__text">Sebuah sistem untuk menjaga kebersihan dan kesterilan ruangan di rumah sakit pada masa pandemi.</p>
 
       <div class="home__cta">
-        <a href="penilaian.php" class="button--primary">Penilaian</a>
-        <a href="data_ruangan.php" class="button--secondary">Lihat Data Ruangan</a>
+        <a href="./pengecekan.php" class="button--primary">Pengecekan</a>
+        <a href="./data-ruangan.php" class="button--secondary">Lihat Data Ruangan</a>
       </div>
     </div>
   </main>
 
-  <?php require "includes/footer.php"; ?>
+  <?php require __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>
