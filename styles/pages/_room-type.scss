@@ -1,7 +1,7 @@
 @use '../abstracts' as *;
 @use '../utilities' as *;
 
-.room {
+.room-type {
   @extend %container;
 
   min-height: calc(100vh - #{$header-height});
@@ -12,6 +12,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  @include md {
+    .table {
+      width: 60%;
+    }
   }
 
   &__action {

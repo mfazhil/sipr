@@ -138,16 +138,31 @@
     margin-right: 0.4rem;
   }
 
-  &__iconout {
-    width: 1.25rem;
-    height: 1.25rem;
-    transform: scaleX(-1);
-    margin-left: 0.4rem;
+  &__logout {
+    @extend .nav__link;
+
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+
+    > .nav__icon {
+      transform: scaleX(-1);
+    }
+
+    @include md {
+      flex-direction: row;
+
+      > .nav__icon {
+        margin-right: 0;
+        margin-left: 0.4rem;
+      }
+    }
   }
 }
 
 .hamburger {
   margin-left: auto;
+  border-width: 0;
+  background-color: transparent;
 
   @include md {
     display: none;

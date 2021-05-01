@@ -4,12 +4,12 @@
   border-collapse: collapse;
 
   > thead {
-    height: 3rem;
     background-color: hsl(220, 13%, 91%);
 
     > tr {
       > th {
         text-align: start;
+        padding: 0.5rem 0;
       }
 
       > th:first-child,
