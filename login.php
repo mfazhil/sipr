@@ -10,22 +10,31 @@
 </head>
 
 <body>
-  <?php require "includes/navbar.php"; ?>
+  <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
   <?php
   if (count($_SESSION) > 0) return header("Location: ./");
   $error = 0;
 
-  if (count($_POST) > 0) {
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    require __DIR__ . "/_includes/database.php";
+
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
     $password = $_POST["password"];
 
-    if ($username === 'admin' && $password === 'admin') {
-      $_SESSION["role"] = 'admin';
-    } elseif ($username === 'user' && $password === 'user') {
-      $_SESSION["role"] = 'user';
-    } else {
-      $error = 1;
+    $sql = $db->prepare("SELECT * FROM pengguna WHERE Username = :username");
+    $sql->execute(["username" => $username]);
+    $pengguna = $sql->fetch(PDO::FETCH_OBJ);
+
+    if ($pengguna === false) $error = 2;
+
+    if ($error === 0) {
+      if ($password === $pengguna->Password) {
+        $_SESSION["id"] = $pengguna->IdPengguna;
+        $_SESSION["role"] = strtolower($pengguna->jnspengguna);
+      } else {
+        $error = 1;
+      }
     }
 
     if ($error === 0) return header("Location: ./");
@@ -44,11 +53,14 @@
       <?php if ($error === 1) { ?>
         <div class="login__alert">Username dan password tidak cocok!</div>
       <?php } ?>
+      <?php if ($error === 2) { ?>
+        <div class="login__alert">Username tersebut belum terdaftar!</div>
+      <?php } ?>
       <button class="login__submit" type="submit" name="submit">Login</button>
     </form>
   </main>
 
-  <?php require "includes/footer.php"; ?>
+  <?php require __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>
