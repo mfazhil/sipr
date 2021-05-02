@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Tambah Petugas | SIPR</title>
 </head>
 
@@ -61,46 +60,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-employee">
-    <header class="modify-employee__header">
-      <h1>Petugas</h1>
-      <h1>//</h1>
-      <h1>Tambah</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Petugas</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Tambah</h1>
     </header>
-    <form method="POST" class="modify-employee__form">
+    <form method="POST" class="form">
       <?php if ($error === 1) { ?>
-        <h3 class="modify-room__error">Jenis kelamin tidak valid</h3>
+        <h3 class="form__error">Jenis kelamin tidak valid</h3>
       <?php } ?>
       <?php if ($error === 2) { ?>
-        <h3 class="modify-room__error">Username sudah terpakai</h3>
+        <h3 class="form__error">Username sudah terpakai</h3>
       <?php } ?>
       <?php if ($error === 3) { ?>
-        <h3 class="modify-room__error">Gagal menyimpan data</h3>
+        <h3 class="form__error">Gagal menyimpan data</h3>
       <?php } ?>
 
-      <label for="name" class="modify-employee__label">Nama</label>
-      <input id="name" class="modify-employee__input" type="text" name="nama" required>
+      <label for="name" class="form__label">Nama</label>
+      <input id="name" class="form__input" type="text" name="nama" required>
 
-      <label for="username" class="modify-employee__label">Username</label>
-      <input id="username" class="modify-employee__input" type="text" name="username" required>
+      <label for="username" class="form__label">Username</label>
+      <input id="username" class="form__input" type="text" name="username" required>
 
-      <label for="password" class="modify-employee__label">Password</label>
-      <input id="password" class="modify-employee__input" type="password" name="password" required>
+      <label for="password" class="form__label">Password</label>
+      <input id="password" class="form__input" type="password" name="password" required>
 
-      <label for="jeniskelamin" class="modify-employee__label">Jenis Kelamin</label>
-      <select class="modify-employee__select" name="jeniskelamin" id="jeniskelamin" required>
+      <label for="jeniskelamin" class="form__label">Jenis Kelamin</label>
+      <select class="form__input" name="jeniskelamin" id="jeniskelamin" required>
         <option value="">Pilih jenis kelamin</option>
         <option value="laki-laki">Laki - laki</option>
         <option value="perempuan">Perempuan</option>
       </select>
 
-      <label for="address" class="modify-employee__label">Alamat</label>
-      <textarea name="alamat" id="address" class="modify-employee__textarea" cols="30" rows="3" required></textarea>
+      <label for="address" class="form__label">Alamat</label>
+      <textarea name="alamat" id="address" class="form__input" cols="30" rows="3" required></textarea>
 
-      <label for="mobile" class="modify-employee__label">No Hp</label>
-      <input id="mobile" class="modify-employee__input" type="text" name="nohp" required>
+      <label for="mobile" class="form__label">No Hp</label>
+      <input id="mobile" class="form__input" type="text" name="nohp" required>
 
-      <div class="modify-employee__buttons">
+      <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
         <button type="reset" class="button--red small">Reset</button>
         <a href="./petugas.php" class="button--gray small">Kembali</a>

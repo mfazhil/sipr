@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Jenis Ruangan | SIPR</title>
 </head>
 
@@ -39,8 +38,8 @@ $no = 0;
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="room-type">
-    <header class="room-type__header">
+  <main class="main">
+    <header class="main__header">
       <h1>Jenis Ruangan</h1>
       <div>
         <?php if ($isAdmin) { ?>
@@ -54,7 +53,7 @@ $no = 0;
           <th>No.</th>
           <th>Nama Jenis</th>
           <?php if ($isAdmin) { ?>
-            <th class="room-type__action">Aksi</th>
+            <th class="table__action">Aksi</th>
           <?php } ?>
         </tr>
       </thead>
@@ -68,7 +67,7 @@ $no = 0;
             <td><?= $jenis_ruang->NamaJnsRuang ?></td>
             <?php if ($isAdmin) { ?>
               <td>
-                <form class="room-type__cta" method="POST">
+                <form class="table__cta" method="POST">
                   <a href="./edit-jenis-ruangan.php?id=<?= $jenis_ruang->IdJnsRuang ?>" class="button--blue small">Edit</a>
                   <input type="hidden" name="id" value="<?= $jenis_ruang->IdJnsRuang ?>">
                   <button type="submit" class="button--red small">Hapus</button>

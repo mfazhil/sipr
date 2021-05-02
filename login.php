@@ -5,41 +5,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Login | SIPR</title>
 </head>
 
+<?php
+session_start();
+
+if (count($_SESSION) > 0) return header("Location: ./");
+$error = 0;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  require __DIR__ . "/_includes/database.php";
+
+  $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+  $password = $_POST["password"];
+
+  $sql = $db->prepare("SELECT * FROM pengguna WHERE Username = :username");
+  $sql->execute(["username" => $username]);
+  $pengguna = $sql->fetch(PDO::FETCH_OBJ);
+
+  if ($pengguna === false) $error = 2;
+
+  if ($error === 0) {
+    if ($password === $pengguna->Password) {
+      $_SESSION["id"] = $pengguna->IdPengguna;
+      $_SESSION["role"] = strtolower($pengguna->jnspengguna);
+    } else {
+      $error = 1;
+    }
+  }
+
+  if ($error === 0) return header("Location: ./");
+}
+?>
+
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
-
-  <?php
-  if (count($_SESSION) > 0) return header("Location: ./");
-  $error = 0;
-
-  if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    require __DIR__ . "/_includes/database.php";
-
-    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
-    $password = $_POST["password"];
-
-    $sql = $db->prepare("SELECT * FROM pengguna WHERE Username = :username");
-    $sql->execute(["username" => $username]);
-    $pengguna = $sql->fetch(PDO::FETCH_OBJ);
-
-    if ($pengguna === false) $error = 2;
-
-    if ($error === 0) {
-      if ($password === $pengguna->Password) {
-        $_SESSION["id"] = $pengguna->IdPengguna;
-        $_SESSION["role"] = strtolower($pengguna->jnspengguna);
-      } else {
-        $error = 1;
-      }
-    }
-
-    if ($error === 0) return header("Location: ./");
-  }
-  ?>
 
   <main class="login">
     <img class="login__image" src="./images/login-illustration.svg" alt="Login SIPR">

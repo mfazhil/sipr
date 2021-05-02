@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Tambah Ruangan | SIPR</title>
 </head>
 
@@ -65,23 +64,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-room">
-    <header class="modify-room__header">
-      <h1>Data Ruangan</h1>
-      <h1>//</h1>
-      <h1>Tambah</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Data Ruangan</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Tambah</h1>
     </header>
-    <form method="POST" class="modify-room__form">
+    <form method="POST" class="form">
       <?php if ($error > 0) { ?>
-        <h3 class="modify-room__error">Gagal menyimpan data</h3>
+        <h3 class="form__error">Gagal menyimpan data</h3>
       <?php } ?>
-      <label for="name" class="modify-room__label">Nama</label>
-      <input id="name" class="modify-room__input" type="text" name="nama" required>
-      <label for="kapasitas" class="modify-room__label">Kapasitas</label>
-      <input id="kapasitas" class="modify-room__input" type="number" name="kapasitas" min="1" required>
+      <label for="name" class="form__label">Nama</label>
+      <input id="name" class="form__input" type="text" name="nama" required>
+      <label for="kapasitas" class="form__label">Kapasitas</label>
+      <input id="kapasitas" class="form__input" type="number" name="kapasitas" min="1" required>
 
-      <label for="jenisruang" class="modify-room__label">Jenis Ruangan</label>
-      <select class="modify-room__select" name="jenisruang" id="jenisruang" required>
+      <label for="jenisruang" class="form__label">Jenis Ruangan</label>
+      <select class="form__input" name="jenisruang" id="jenisruang" required>
         <option value="">Pilih jenis ruangan</option>
         <?php
         $data_jenis_ruang = $db->query("SELECT * FROM jnsruang");
@@ -97,18 +96,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $data_prosedur = $db->query("SELECT * FROM prosedur");
       if ($data_prosedur !== false) {
       ?>
-        <div class="modify-room__checkbox-label">Prosedur Ruangan</div>
+        <div class="form__label--alt">Prosedur Ruangan</div>
       <?php }
       $no = 0;
       while ($prosedur = $data_prosedur->fetch(PDO::FETCH_OBJ)) {
       ?>
-        <input type="checkbox" id="prosedur<?= $no ?>" name="prosedur[]" class="modify-room__checkbox" value="<?= $prosedur->IdProsedur ?>">
+        <input type="checkbox" id="prosedur<?= $no ?>" name="prosedur[]" value="<?= $prosedur->IdProsedur ?>">
         <label for="prosedur<?= $no ?>"><?= $prosedur->NamaProsedur ?></label><br>
+      <?php
+      }
+      if ($data_prosedur->rowCount() === 0) {
+      ?>
+        <small>Tidak ada prosedur</small>
       <?php
       }
       ?>
 
-      <div class="modify-room__buttons">
+      <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
         <button type="reset" class="button--red small">Reset</button>
         <a href="./data-ruangan.php" class="button--gray small">Kembali</a>

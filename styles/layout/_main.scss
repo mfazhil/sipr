@@ -1,7 +1,7 @@
 @use '../abstracts' as *;
 @use '../utilities' as *;
 
-.procedure {
+.main {
   @extend %container;
 
   min-height: calc(100vh - #{$header-height});
@@ -12,26 +12,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
 
-  &__action {
-    text-align: center !important;
-  }
-
-  &__cta {
-    display: flex;
-    justify-content: center;
-
-    a {
-      margin-right: 0.1rem;
+    &--no-button {
+      display: block;
     }
+  }
 
-    button {
-      margin-left: 0.1rem;
+  &__title {
+    display: inline-block;
+
+    &:nth-child(2) {
+      color: $primary;
+      margin: 0 0.5rem;
     }
   }
 
   &__error {
     color: $red;
+  }
+
+  @include md {
+    .table.small {
+      width: 60%;
+    }
   }
 }

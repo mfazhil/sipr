@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Tambah Petugas | SIPR</title>
 </head>
 
@@ -64,51 +63,51 @@ if ($id) {
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-employee">
-    <header class="modify-employee__header">
-      <h1>Pengecekan</h1>
-      <h1>//</h1>
-      <h1>Tambah</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Pengecekan</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Tambah</h1>
     </header>
     <?php if (isset($data_pruang)) { ?>
-      <form method="POST" class="modify-employee__form">
+      <form method="POST" class="form">
         <?php if ($error === 1) { ?>
-          <h3 class="modify-room__error">Gagal menyimpan data</h3>
+          <h3 class="form__error">Gagal menyimpan data</h3>
         <?php } ?>
 
-        <label for="tanggal" class="modify-employee__label">Tanggal</label>
-        <input id="tanggal" class="modify-employee__input" type="date" min="2000-01-01" max="9999-12-31" value="<?= date("Y-m-d") ?>" name="tgl" required>
+        <label for="tanggal" class="form__label">Tanggal</label>
+        <input id="tanggal" class="form__input" type="date" min="2000-01-01" max="9999-12-31" value="<?= date("Y-m-d") ?>" name="tgl" required>
 
-        <label for="ruangan" class="modify-employee__label">Nama Ruangan</label>
-        <input id="ruangan" class="modify-employee__input" type="text" value="<?= $data_pruang->NamaRuang ?>" disabled>
+        <label for="ruangan" class="form__label">Nama Ruangan</label>
+        <input id="ruangan" class="form__input" type="text" value="<?= $data_pruang->NamaRuang ?>" disabled>
 
         <input type="hidden" name="ruang" value="<?= $data_pruang->idruang ?>">
 
-        <label for="nilai" class="modify-employee__label">Nilai untuk prosedur <?= $data_pruang->NamaProsedur ?> </label>
-        <input id="nilai" class="modify-employee__input" type="number" min="0" max="100" name="nilai[]" required>
+        <label for="nilai" class="form__label">Nilai untuk prosedur <?= $data_pruang->NamaProsedur ?> </label>
+        <input id="nilai" class="form__input" type="number" min="0" max="100" name="nilai[]" required>
         <input type="hidden" name="pruang[]" value="<?= $data_pruang->Iddia ?>">
 
         <?php
         while ($pruang = $sql->fetch(PDO::FETCH_OBJ)) {
           $no++;
         ?>
-          <label for="nilai<?= $no ?>" class="modify-employee__label">Nilai untuk prosedur <?= $pruang->NamaProsedur ?> </label>
-          <input id="nilai<?= $no ?>" class="modify-employee__input" type="number" min="0" max="100" name="nilai[]" required>
+          <label for="nilai<?= $no ?>" class="form__label">Nilai untuk prosedur <?= $pruang->NamaProsedur ?> </label>
+          <input id="nilai<?= $no ?>" class="form__input" type="number" min="0" max="100" name="nilai[]" required>
           <input type="hidden" name="pruang[]" value="<?= $pruang->Iddia ?>">
         <?php
         }
         ?>
 
-        <div class="modify-employee__buttons">
+        <div class="form__buttons">
           <button type="submit" class="button--blue small">Simpan</button>
           <button type="reset" class="button--red small">Reset</button>
           <a href="./tambah-pengecekan.php" class="button--gray small">Kembali</a>
         </div>
       </form>
     <?php } else { ?>
-      <form method="GET" class="modify-employee__form">
-        <label for="ruangan" class="modify-employee__label">Ruangan :</label>
-        <select class="modify-employee__select" name="id" id="ruangan" required>
+      <form method="GET" class="form">
+        <label for="ruangan" class="form__label">Ruangan :</label>
+        <select class="form__input" name="id" id="ruangan" required>
           <option value="">Pilih ruangan</option>
           <?php while ($ruangan = $data_ruangan->fetch(PDO::FETCH_OBJ)) {
             if ($previous === $ruangan->IdRuang) continue;
@@ -118,7 +117,7 @@ if ($id) {
           <?php } ?>
         </select>
 
-        <div class="modify-employee__buttons">
+        <div class="form__buttons">
           <button type="submit" class="button--blue small">Lanjut</button>
           <button type="reset" class="button--red small">Reset</button>
           <a href="./pengecekan.php" class="button--gray small">Kembali</a>

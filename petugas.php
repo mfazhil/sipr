@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Petugas | SIPR</title>
 </head>
 
@@ -65,9 +64,9 @@ $no2 = 0;
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="employee">
+  <main class="main">
     <section>
-      <header class="employee__header">
+      <header class="main__header">
         <h1>Petugas</h1>
         <div>
           <?php if ($isAdmin) { ?>
@@ -85,7 +84,7 @@ $no2 = 0;
             <th>Nomor Hp</th>
             <th>Alamat</th>
             <?php if ($isAdmin) { ?>
-              <th class="employee__action">Aksi</th>
+              <th class="table__action">Aksi</th>
             <?php } ?>
           </tr>
         </thead>
@@ -103,7 +102,7 @@ $no2 = 0;
               <td><?= $pengguna->Alamat ?></td>
               <?php if ($isAdmin) { ?>
                 <td>
-                  <form class="employee__cta" method="POST">
+                  <form class="table__cta" method="POST">
                     <a href="./edit-petugas.php?id=<?= $pengguna->IdPengguna ?>" class="button--blue small">Edit</a>
                     <input type="hidden" name="id" value="<?= $pengguna->IdPengguna ?>">
                     <button type="submit" class="button--red small">Hapus</button>
@@ -118,7 +117,7 @@ $no2 = 0;
       </table>
     </section>
     <section>
-      <header class="employee__header">
+      <header class="main__header">
         <h1>Admin</h1>
         <div>
           <?php if ($isAdmin) { ?>
@@ -132,7 +131,7 @@ $no2 = 0;
             <th>No.</th>
             <th>Username</th>
             <?php if ($isAdmin) { ?>
-              <th class="employee__action">Aksi</th>
+              <th class="table__action">Aksi</th>
             <?php } ?>
           </tr>
         </thead>
@@ -146,7 +145,7 @@ $no2 = 0;
               <td><?= $admin->Username ?></td>
               <?php if ($isAdmin && $data_admin->rowCount() > 1 && $_SESSION["id"] === $admin->IdPengguna) { ?>
                 <td>
-                  <form class="employee__cta" method="POST">
+                  <form class="table__cta" method="POST">
                     <button type="submit" name="delete" class="button--red small">Hapus</button>
                   </form>
                 </td>

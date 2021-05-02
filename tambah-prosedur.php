@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Tambah Prosedur | SIPR</title>
 </head>
 
@@ -39,22 +38,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-procedure">
-    <header class="modify-procedure__header">
-      <h1>Daftar Prosedur</h1>
-      <h1>//</h1>
-      <h1>Tambah</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Daftar Prosedur</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Tambah</h1>
     </header>
-    <form method="POST" class="modify-procedure__form">
+    <form method="POST" class="form">
       <?php if ($error === 1) { ?>
-        <h3 class="modify-procedure__error">Gagal menyimpan data</h3>
+        <h3 class="form__error">Gagal menyimpan data</h3>
       <?php } ?>
-      <label for="name" class="modify-procedure__label">Nama</label>
-      <input id="name" class="modify-procedure__input" type="text" name="nama" required>
-      <label for="information" class="modify-procedure__label">Keterangan</label>
-      <textarea name="keterangan" id="information" class="modify-procedure__textarea" cols="30" rows="3" required></textarea>
+      <label for="name" class="form__label">Nama</label>
+      <input id="name" class="form__input" type="text" name="nama" required>
+      <label for="information" class="form__label">Keterangan</label>
+      <textarea name="keterangan" id="information" class="form__input" cols="30" rows="3" required></textarea>
 
-      <div class="modify-procedure__buttons">
+      <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
         <button type="reset" class="button--red small">Reset</button>
         <a href="./daftar-prosedur.php" class="button--gray small">Kembali</a>

@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Pengecekan | SIPR</title>
 </head>
 
@@ -39,8 +38,8 @@ $no = 0;
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="check">
-    <header class="check__header">
+  <main class="main">
+    <header class="main__header">
       <h1>Pengecekan</h1>
       <div>
         <?php if ($isUser) { ?>
@@ -58,7 +57,7 @@ $no = 0;
           <th>Prosedur</th>
           <th>Nilai</th>
           <?php if ($isUser) { ?>
-            <th>Aksi</th>
+            <th class="table__action">Aksi</th>
           <?php } ?>
         </tr>
       </thead>
@@ -83,7 +82,7 @@ $no = 0;
             <td><?= $pengecekan->Nilai ?></td>
             <?php if ($isUser) { ?>
               <td>
-                <form class="room__cta" method="POST">
+                <form class="table__cta" method="POST">
                   <a href="./edit-pengecekan.php?id=<?= $pengecekan->idPengecekan ?>" class="button--blue small">Edit</a>
                   <input type="hidden" name="id" value="<?= $pengecekan->idPengecekan ?>">
                   <button type="submit" class="button--red small">Hapus</button>

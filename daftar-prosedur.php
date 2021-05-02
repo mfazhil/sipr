@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Daftar Prosedur | SIPR</title>
 </head>
 
@@ -39,8 +38,8 @@ $no = 0;
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="procedure">
-    <header class="procedure__header">
+  <main class="main">
+    <header class="main__header">
       <h1>Daftar Prosedur</h1>
       <div>
         <?php if ($isAdmin) { ?>
@@ -55,7 +54,7 @@ $no = 0;
           <th>Nama Prosedur</th>
           <th>Keterangan</th>
           <?php if ($isAdmin) { ?>
-            <th class="procedure__action">Aksi</th>
+            <th class="table__action">Aksi</th>
           <?php } ?>
         </tr>
       </thead>
@@ -70,7 +69,7 @@ $no = 0;
             <td><?= $prosedur->Keterangan ?></td>
             <?php if ($isAdmin) { ?>
               <td>
-                <form class="procedure__cta" method="POST">
+                <form class="table__cta" method="POST">
                   <a href="./edit-prosedur.php?id=<?= $prosedur->IdProsedur ?>" class="button--blue small">Edit</a>
                   <input type="hidden" name="id" value="<?= $prosedur->IdProsedur ?>">
                   <button type="submit" class="button--red small">Hapus</button>

@@ -3,6 +3,29 @@
   border-color: hsl(216, 12%, 84%);
   border-collapse: collapse;
 
+  &__action {
+    text-align: center !important;
+  }
+
+  &__cta {
+    display: flex;
+    justify-content: center;
+
+    a,
+    button {
+      text-align: center;
+      width: 5rem;
+    }
+
+    a {
+      margin-right: 0.1rem;
+    }
+
+    button {
+      margin-left: 0.1rem;
+    }
+  }
+
   > thead {
     background-color: hsl(220, 13%, 91%);
 
@@ -12,8 +35,7 @@
         padding: 0.5rem 0;
       }
 
-      > th:first-child,
-      > th:nth-child(7) {
+      > th:first-child {
         text-align: center;
       }
     }
@@ -24,10 +46,6 @@
       > th,
       > td {
         height: 2.5rem;
-      }
-
-      > td:nth-child(7) {
-        text-align: center;
       }
     }
   }

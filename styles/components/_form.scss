@@ -1,0 +1,55 @@
+@use '../abstracts' as *;
+@use '../utilities' as *;
+
+.form {
+  border-width: 1px;
+  border-color: $lightgray;
+  border-style: solid;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+
+  &__error {
+    color: $red;
+  }
+
+  &__success {
+    color: $primary;
+  }
+
+  &__label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  &__label--alt {
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  &__input {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    min-width: 20vw;
+    border-width: 1px;
+    border-color: darken($lightgray, 10);
+    border-style: solid;
+    outline: none;
+    transition: border-color 250ms ease-in-out;
+
+    &:focus {
+      border-color: $primary;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    :not(:last-child) {
+      margin-right: 0.25rem;
+    }
+  }
+}

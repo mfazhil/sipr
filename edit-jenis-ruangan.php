@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
   <title>Edit Jenis Ruangan | SIPR</title>
 </head>
 
@@ -64,24 +63,24 @@ if ($jenis_ruangan === false) {
 <body>
   <?php require __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-room-type">
-    <header class="modify-room-type__header">
-      <h1>Jenis Ruangan</h1>
-      <h1>//</h1>
-      <h1>Edit</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Jenis Ruangan</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Edit</h1>
     </header>
-    <form method="POST" class="modify-room-type__form">
+    <form method="POST" class="form">
       <?php if ($error === 1) { ?>
-        <h3 class="modify-room-type__error">Id tidak valid</h3>
+        <h3 class="form__error">Id tidak valid</h3>
       <?php } ?>
       <?php if ($error === 2) { ?>
-        <h3 class="modify-room-type__error">Gagal menyimpan data</h3>
+        <h3 class="form__error">Gagal menyimpan data</h3>
       <?php } ?>
       <input type="hidden" name="id" value="<?= $jenis_ruangan->IdJnsRuang ?>">
-      <label for="name" class="modify-room-type__label">Nama</label>
-      <input id="name" class="modify-room-type__input" type="text" name="nama" value="<?= $jenis_ruangan->NamaJnsRuang ?>" required>
+      <label for="name" class="form__label">Nama</label>
+      <input id="name" class="form__input" type="text" name="nama" value="<?= $jenis_ruangan->NamaJnsRuang ?>" required>
 
-      <div class="modify-room-type__buttons">
+      <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
         <button type="reset" class="button--red small">Reset</button>
         <a href="./jenis-ruangan.php" class="button--gray small">Kembali</a>
