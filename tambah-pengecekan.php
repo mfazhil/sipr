@@ -26,15 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $pruang_arr = $_POST["pruang"];
   $nilai_arr = $_POST["nilai"];
   $jumlah =  count($_POST["pruang"]);
+  $sql = $db->prepare("SELECT * FROM pengguna WHERE IdPengguna = :id");
+  $sql->execute(["id" => $id]);
+  $pengguna = $sql->fetch(PDO::FETCH_OBJ);
 
   $success = false;
-  $sql = $db->prepare("INSERT INTO pengecekan (IdPRuang, IdPetugas, Nilai, TglPengecekan) VALUES (:pruang, :id, :nilai, :tgl)");
+  $sql = $db->prepare("INSERT INTO pengecekan (IdPRuang, idPetugas, Nilai, TglPengecekan) VALUES (:pruang, :id, :nilai, :tgl)");
 
   for ($x = 0; $x < $jumlah; $x++) {
     $nilai = filter_var($nilai_arr[$x], FILTER_SANITIZE_NUMBER_INT);
     $pruang = filter_var($pruang_arr[$x], FILTER_SANITIZE_NUMBER_INT);
 
-    $success = $sql->execute(["pruang" => $pruang, "id" => $id, "nilai" => $nilai, "tgl" => $tgl]);
+    $success = $sql->execute(["pruang" => $pruang, "id" => $pengguna->IdPetugas, "nilai" => $nilai, "tgl" => $tgl]);
   }
 
   if ($success) {
