@@ -25,7 +25,7 @@ function addActiveClass(String $pageName): String
         </span>
       <?php } ?>
     </a>
-    <button class="hamburger">
+    <button class="hamburger" onclick="handleClick()">
       <span class="hamburger__line"></span>
       <span class="hamburger__line"></span>
       <span class="hamburger__line"></span>
@@ -114,8 +114,16 @@ function addActiveClass(String $pageName): String
 </header>
 
 <script>
-  $(".hamburger").click(function() {
-    $(this).toggleClass("active");
-    $(".nav__list").toggleClass("active");
-  });
+  const hamburgerButton = document.querySelector(".hamburger");
+  const navList = document.querySelector(".nav__list");
+
+  function handleClick() {
+    if (hamburgerButton.classList.contains("active")) {
+      hamburgerButton.classList.remove("active");
+      navList.classList.remove("active");
+    } else {
+      hamburgerButton.classList.add("active");
+      navList.classList.add("active");
+    }
+  }
 </script>
