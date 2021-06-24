@@ -32,6 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if (filter_var($kapasitas, FILTER_VALIDATE_INT) === false) $error = 2;
   if (filter_var($jenisruang, FILTER_VALIDATE_INT) === false) $error = 3;
 
+  $sql = $db->prepare("SELECT * FROM pruang WHERE idruang = :id");
+  $sql->execute(["id" => $id]);
+  $pruang_lama = array();
+  $pruang_baru = $_POST["prosedur"];
+  while ($pruang = $sql->fetch(PDO::FETCH_OBJ)) {
+    array_push($pruang_lama, $pruang->idprosedur);
+  }
 
   $sql = $db->prepare("UPDATE ruang SET NamaRuang= :nama, Kapasitas = :kapasitas, IdJnsRuang = :jnsruang WHERE IdRuang = :id");
 
@@ -42,15 +49,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($result !== false) {
       $sql2 = $db->prepare("INSERT INTO pruang (idruang, idprosedur) VALUES (:ruang, :prosedur)");
-      $db->prepare("DELETE FROM pruang WHERE idruang = :ruang")->execute(["ruang" => $id]);
-      foreach ($_POST["prosedur"] as $prosedur) {
-        if (filter_var($prosedur, FILTER_VALIDATE_INT) === false) {
-          $result2 = false;
-          break;
+      $sql3 = $db->prepare("DELETE FROM pruang WHERE idruang = :idruang AND idprosedur = :idprosedur");
+      $diff_baru = array_diff($pruang_baru, $pruang_lama);
+      if (count($diff_baru) > 0) {
+        foreach ($diff_baru as $prosedur_baru) {
+          if (filter_var($prosedur_baru, FILTER_VALIDATE_INT) === false) {
+            $result2 = false;
+            break;
+          }
+          $result2 = $sql2->execute(["ruang" => $id, "prosedur" => $prosedur_baru]);
         }
-        $result2 = $sql2->execute(["ruang" => $id, "prosedur" => $prosedur]);
       }
-      if (count($_POST["prosedur"]) === 0) $result2 = true;
+      $diff_lama = array_diff($pruang_lama, $pruang_baru);
+      if (count($diff_lama) > 0 && $result === true) {
+        foreach ($diff_lama as $prosedur_lama) {
+          if (filter_var($prosedur_lama, FILTER_VALIDATE_INT) === false) {
+            $result2 = false;
+            break;
+          }
+          $result2 = $sql3->execute(["idruang" => $id, "idprosedur" => $prosedur_lama]);
+        }
+      }
+      if (count($_POST["prosedur"]) === 0 || (count($diff_lama) === 0 && count($diff_baru) === 0)) $result2 = true;
     }
   }
 
