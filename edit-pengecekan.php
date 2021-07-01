@@ -21,13 +21,13 @@ if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "user") {
 $error = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
   $tgl = filter_input(INPUT_POST, "tgl", FILTER_SANITIZE_STRING);
-  $nilai = filter_input(INPUT_POST, "nilai", FILTER_SANITIZE_NUMBER_INT);
+  unset($_POST["tgl"]);
 
   $sql = $db->prepare("UPDATE pengecekan SET Nilai= :nilai, TglPengecekan = :tgl WHERE idPengecekan = :id");
-
-  $result = $sql->execute(["nilai" => $nilai, "tgl" => $tgl, "id" => $id]);
+  foreach ($_POST as $id => $nilai) {
+    $result = $sql->execute(["nilai" => $nilai, "tgl" => $tgl, "id" => $id]);
+  }
 
   if ($result !== false) {
     header("Location: ./pengecekan.php");
@@ -36,16 +36,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   $error = 1;
 }
-$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+$arr_id = $_GET["id"];
 
-if (filter_var($id, FILTER_VALIDATE_INT) === false) {
+if (filter_var_array($arr_id, FILTER_VALIDATE_INT) === false) {
   header("Location: ./pengecekan.php");
   exit();
 }
 
 $sql = $db->prepare("SELECT * FROM pengecekan LEFT JOIN pruang ON pengecekan.idPRuang = pruang.Iddia WHERE idPengecekan = :id");
 $sql2 = $db->prepare("SELECT * FROM pruang INNER JOIN prosedur ON pruang.idprosedur = prosedur.IdProsedur INNER JOIN ruang ON pruang.idruang = ruang.IdRuang WHERE Iddia = :id");
-$result = $sql->execute(["id" => $id]);
+$result = $sql->execute(["id" => $arr_id[0]]);
 if ($result === false) {
   header("Location: ./pengecekan.php");
   exit();
@@ -90,10 +90,15 @@ if ($pruang === false) {
       <label for="ruangan" class="form__label">Nama Ruangan</label>
       <input id="ruangan" class="form__input" type="text" value="<?= $pruang->NamaRuang ?>" disabled>
 
-      <input type="hidden" name="id" value="<?= $pengecekan->idPengecekan ?>">
-
-      <label for="nilai" class="form__label">Nilai untuk prosedur <?= $pruang->NamaProsedur ?> </label>
-      <input id="nilai" class="form__input" type="number" min="0" max="100" name="nilai" value="<?= $pengecekan->Nilai ?>" required>
+      <?php
+      foreach ($arr_id as $id_pengecekan) {
+        $sql = $db->prepare("SELECT idPengecekan, NamaProsedur, Nilai FROM pengecekan INNER JOIN pruang ON pengecekan.IdPRuang = pruang.Iddia INNER JOIN prosedur ON pruang.idprosedur = prosedur.IdProsedur WHERE idPengecekan = :id_pengecekan");
+        $sql->execute(["id_pengecekan" => $id_pengecekan]);
+        $data_pengecekan = $sql->fetch(PDO::FETCH_OBJ);
+      ?>
+        <label for="nilai<?= $data_pengecekan->idPengecekan; ?>" class="form__label">Nilai untuk prosedur <?= $data_pengecekan->NamaProsedur ?> </label>
+        <input id="nilai<?= $data_pengecekan->idPengecekan; ?>" class="form__input" type="number" min="0" max="100" name="<?= $data_pengecekan->idPengecekan; ?>" value="<?= $data_pengecekan->Nilai; ?>" required>
+      <?php } ?>
 
       <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
