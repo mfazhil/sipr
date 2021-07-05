@@ -1,124 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./styles/main.css" />
-  <script src="./vendors/jquery/jquery.js"></script>
+  <link rel="stylesheet" href="./assets/styles/style.css" />
   <title>Tambah Petugas | SIPR</title>
 </head>
 
 <?php
 require_once __DIR__ . "/_includes/database.php";
+require_once __DIR__ . "/_includes/utils.php";
+
 date_default_timezone_set("Asia/Jakarta");
 session_start();
 
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "user") {
+if (count($_SESSION) === 0 || $_SESSION["role"] !== Role::USER) {
   header("Location: ./");
-  exit();
+  exit;
 }
 
-$error = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  try {
+    Validate::check(["id"], $_GET);
+    Validate::check(["date", "list_id_pruang", "list_nilai_pengecekan"], $_POST);
+    $date = Validate::post_string("date");
 
-  $tgl = filter_input(INPUT_POST, "tgl", FILTER_SANITIZE_STRING);
-  $id = filter_var(filter_var($_SESSION["id"], FILTER_SANITIZE_NUMBER_INT), FILTER_VALIDATE_INT);
-  $pruang_arr = $_POST["pruang"];
-  $nilai_arr = $_POST["nilai"];
-  $jumlah =  count($_POST["pruang"]);
+    $list_id_pruang = $_POST["list_id_pruang"];
+    $list_nilai_pengecekan = $_POST["list_nilai_pengecekan"];
+    if (!is_array($list_id_pruang)) throw new Exception("Pengecekan ruang harus berbentuk array.", 504);
+    if (!is_array($list_nilai_pengecekan)) throw new Exception("Nilai harus berbentuk array.", 504);
 
-  $success = false;
-  $sql = $db->prepare("INSERT INTO pengecekan (IdPRuang, IdPetugas, Nilai, TglPengecekan) VALUES (:pruang, :id, :nilai, :tgl)");
+    foreach ($list_id_pruang as $id_pruang) {
+      if (filter_var($id_pruang, FILTER_VALIDATE_INT) === false) throw new Exception("Id pruang hanya boleh berisi angka.", 505);
+    }
 
-  for ($x = 0; $x < $jumlah; $x++) {
-    $nilai = filter_var($nilai_arr[$x], FILTER_SANITIZE_NUMBER_INT);
-    $pruang = filter_var($pruang_arr[$x], FILTER_SANITIZE_NUMBER_INT);
+    foreach ($list_nilai_pengecekan as $nilai_pengecekan) {
+      if (filter_var($nilai_pengecekan, FILTER_VALIDATE_INT) === false) throw new Exception("Nilai pengecekan hanya boleh berisi angka.", 505);
+      if ($nilai_pengecekan < 0 || $nilai_pengecekan > 100) throw new Exception("Nilai tidak boleh kurang dari 0 dan tidak boleh lebih dari 100.", 506);
+    }
 
-    $success = $sql->execute(["pruang" => $pruang, "id" => $id, "nilai" => $nilai, "tgl" => $tgl]);
-  }
+    if (count($list_id_pruang) !== count($list_nilai_pengecekan)) throw new Exception("Jumlah nilai dan jumlah pengecekan tidak sesuai.", 503);
 
-  if ($success) {
+    $id_pengguna = $_SESSION["id"];
+    $data_pengguna = $db->prepare("SELECT * FROM pengguna WHERE IdPengguna = :id_pengguna");
+    $data_pengguna->execute(["id_pengguna" => $id_pengguna]);
+    $pengguna = $data_pengguna->fetch();
+
+    $insert_pengecekan = $db->prepare("INSERT INTO pengecekan (IdPRuang, idPetugas, Nilai, TglPengecekan) VALUES (:id_pruang, :id_petugas, :nilai_pengecekan, :date)");
+
+    for ($i = 0; $i < count($list_id_pruang); $i++) {
+      $id_pruang = $list_id_pruang[$i];
+      $nilai_pengecekan = $list_nilai_pengecekan[$i];
+
+      $is_inserted = $insert_pengecekan->execute(["id_pruang" => $id_pruang, "id_petugas" => $pengguna["IdPetugas"], "nilai_pengecekan" => $nilai_pengecekan, "date" => $date]);
+      if ($is_inserted === false) throw new Exception("Gagal menyimpan data pengecekan", 507);
+    }
+
     header("Location: ./pengecekan.php");
-    exit();
+    exit;
+  } catch (Exception $e) {
+    $error = $e->getMessage();
   }
-
-  $error = 1;
 }
-$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
-if ($id) {
-  $sql = $db->prepare("SELECT * FROM pruang INNER JOIN prosedur ON pruang.idprosedur = prosedur.IdProsedur INNER JOIN ruang ON pruang.idruang = ruang.IdRuang WHERE pruang.idruang = :id");
-  $sql->execute(["id" => filter_var($id, FILTER_VALIDATE_INT)]);
-  $data_pruang = $sql->fetch(PDO::FETCH_OBJ);
-  if ($data_pruang === false) {
-    header("Location: ./tambah-pengecekan.php");
-    exit();
+
+if (!empty($_GET["id"])) {
+  try {
+    $id_ruang = Validate::get_int("id");
+    $data_pruang = $db->prepare("SELECT * FROM pruang INNER JOIN prosedur ON pruang.idprosedur = prosedur.IdProsedur INNER JOIN ruang ON pruang.idruang = ruang.IdRuang WHERE pruang.idruang = :id_ruang");
+    $data_pruang->execute(["id_ruang" => $id_ruang]);
+    $pruang = $data_pruang->fetch();
+    if ($pruang === false) throw new Exception("Ruang dengan id $id_ruang tidak ditemukan.", 200);
+  } catch (Exception $e) {
+    $error = $e->getMessage();
   }
-  $no = 0;
 } else {
-  $previous = null;
-  $data_ruangan = $db->query("SELECT * FROM ruang INNER JOIN pruang ON ruang.IdRuang = pruang.idruang");
+  $data_ruang = $db->query("SELECT * FROM ruang INNER JOIN pruang ON ruang.IdRuang = pruang.idruang GROUP BY ruang.IdRuang");
 }
 ?>
 
 <body>
-  <?php require __DIR__ . "/_includes/navbar.php"; ?>
+  <?php include __DIR__ . "/_includes/navbar.php"; ?>
 
-  <main class="modify-employee">
-    <header class="modify-employee__header">
-      <h1>Pengecekan</h1>
-      <h1>//</h1>
-      <h1>Tambah</h1>
+  <main class="main">
+    <header class="main__header--no-button">
+      <h1 class="main__title">Pengecekan</h1>
+      <h1 class="main__title">//</h1>
+      <h1 class="main__title">Tambah</h1>
     </header>
-    <?php if (isset($data_pruang)) { ?>
-      <form method="POST" class="modify-employee__form">
-        <?php if ($error === 1) { ?>
-          <h3 class="modify-room__error">Gagal menyimpan data</h3>
+    <?php if (!empty($pruang)) { ?>
+      <form method="POST" class="form">
+        <?php if (!empty($error)) { ?>
+          <h3 class="form__error"><?= $error; ?></h3>
         <?php } ?>
 
-        <label for="tanggal" class="modify-employee__label">Tanggal</label>
-        <input id="tanggal" class="modify-employee__input" type="date" min="2000-01-01" max="9999-12-31" value="<?= date("Y-m-d") ?>" name="tgl" required>
+        <label for="tanggal" class="form__label">Tanggal</label>
+        <input id="tanggal" class="form__input" type="date" min="2000-01-01" max="9999-12-31" value="<?= date("Y-m-d"); ?>" name="date" required>
 
-        <label for="ruangan" class="modify-employee__label">Nama Ruangan</label>
-        <input id="ruangan" class="modify-employee__input" type="text" value="<?= $data_pruang->NamaRuang ?>" disabled>
+        <label for="ruangan" class="form__label">Nama Ruangan</label>
+        <input id="ruangan" class="form__input" type="text" value="<?= $pruang["NamaRuang"]; ?>" disabled>
 
-        <input type="hidden" name="ruang" value="<?= $data_pruang->idruang ?>">
+        <input type="hidden" name="ruang" value="<?= $pruang["idruang"]; ?>">
 
-        <label for="nilai" class="modify-employee__label">Nilai untuk prosedur <?= $data_pruang->NamaProsedur ?> </label>
-        <input id="nilai" class="modify-employee__input" type="number" min="0" max="100" name="nilai[]" required>
-        <input type="hidden" name="pruang[]" value="<?= $data_pruang->Iddia ?>">
+        <label for="nilai" class="form__label">Nilai untuk prosedur <?= $pruang["NamaProsedur"]; ?> </label>
+        <input id="nilai" class="form__input" type="number" min="0" max="100" name="list_nilai_pengecekan[]" required>
+        <input type="hidden" name="list_id_pruang[]" value="<?= $pruang["Iddia"]; ?>">
 
         <?php
-        while ($pruang = $sql->fetch(PDO::FETCH_OBJ)) {
-          $no++;
-        ?>
-          <label for="nilai<?= $no ?>" class="modify-employee__label">Nilai untuk prosedur <?= $pruang->NamaProsedur ?> </label>
-          <input id="nilai<?= $no ?>" class="modify-employee__input" type="number" min="0" max="100" name="nilai[]" required>
-          <input type="hidden" name="pruang[]" value="<?= $pruang->Iddia ?>">
-        <?php
-        }
-        ?>
+        while ($pruang = $data_pruang->fetch()) { ?>
+          <label for="nilai-<?= $pruang["Iddia"]; ?>" class="form__label">Nilai untuk prosedur <?= $pruang["NamaProsedur"]; ?> </label>
+          <input id="nilai-<?= $pruang["Iddia"]; ?>" class="form__input" type="number" min="0" max="100" name="list_nilai_pengecekan[]" required>
+          <input type="hidden" name="list_id_pruang[]" value="<?= $pruang["Iddia"]; ?>">
+        <?php } ?>
 
-        <div class="modify-employee__buttons">
+        <div class="form__buttons">
           <button type="submit" class="button--blue small">Simpan</button>
           <button type="reset" class="button--red small">Reset</button>
           <a href="./tambah-pengecekan.php" class="button--gray small">Kembali</a>
         </div>
       </form>
     <?php } else { ?>
-      <form method="GET" class="modify-employee__form">
-        <label for="ruangan" class="modify-employee__label">Ruangan :</label>
-        <select class="modify-employee__select" name="id" id="ruangan" required>
+      <form method="GET" class="form">
+        <?php if (!empty($error)) { ?>
+          <h3 class="form__error"><?= $error; ?></h3>
+        <?php } ?>
+        <label for="ruangan" class="form__label">Ruangan :</label>
+        <select class="form__input" name="id" id="ruangan" required>
           <option value="">Pilih ruangan</option>
-          <?php while ($ruangan = $data_ruangan->fetch(PDO::FETCH_OBJ)) {
-            if ($previous === $ruangan->IdRuang) continue;
-            else $previous = $ruangan->IdRuang;
-          ?>
-            <option value="<?= $ruangan->IdRuang ?>"><?= $ruangan->NamaRuang ?></option>
+          <?php while ($ruang = $data_ruang->fetch()) { ?>
+            <option value="<?= $ruang["IdRuang"]; ?>"><?= $ruang["NamaRuang"]; ?></option>
           <?php } ?>
         </select>
 
-        <div class="modify-employee__buttons">
+        <div class="form__buttons">
           <button type="submit" class="button--blue small">Lanjut</button>
           <button type="reset" class="button--red small">Reset</button>
           <a href="./pengecekan.php" class="button--gray small">Kembali</a>
@@ -127,7 +141,7 @@ if ($id) {
     <?php } ?>
   </main>
 
-  <?php require __DIR__ . "/_includes/footer.php"; ?>
+  <?php include __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>

@@ -1,12 +1,10 @@
 <?php
-
-if (session_id() === '') session_start();
-
+if (empty(session_id())) session_start();
 $loggedIn = false;
 
 if (count($_SESSION) > 0) {
   $loggedIn = true;
-  $role = $_SESSION["role"] === "admin" ? "Admin" : "User";
+  $role = ucfirst(strtolower($_SESSION["role"]));
 }
 function addActiveClass(String $pageName): String
 {
@@ -25,7 +23,7 @@ function addActiveClass(String $pageName): String
         </span>
       <?php } ?>
     </a>
-    <button class="hamburger">
+    <button class="hamburger" onclick="handleClick()">
       <span class="hamburger__line"></span>
       <span class="hamburger__line"></span>
       <span class="hamburger__line"></span>
@@ -112,10 +110,3 @@ function addActiveClass(String $pageName): String
     </nav>
   </div>
 </header>
-
-<script>
-  $(".hamburger").click(function() {
-    $(this).toggleClass("active");
-    $(".nav__list").toggleClass("active");
-  });
-</script>

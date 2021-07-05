@@ -1,0 +1,39 @@
+@use '../abstracts' as *;
+@use '../utilities' as *;
+
+.main {
+  @extend %container;
+
+  min-height: calc(100vh - #{$header-height});
+  margin-inline: auto;
+  padding: $header-padding;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--no-button {
+      display: block;
+    }
+  }
+
+  &__title {
+    display: inline-block;
+
+    &:nth-child(2) {
+      color: $primary;
+      margin: 0 0.5rem;
+    }
+  }
+
+  &__error {
+    color: $red;
+  }
+
+  @include md {
+    .table.small {
+      width: 60%;
+    }
+  }
+}
