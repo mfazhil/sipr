@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap");
-/*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+/*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 /*
 Document
 ========
@@ -8,28 +7,25 @@ Document
 Use a better box model (opinionated).
 */
 *,
-*::before,
-*::after {
+::before,
+::after {
   box-sizing: border-box;
-}
-
-/**
-Use a more readable tab size (opinionated).
-*/
-:root {
-  -moz-tab-size: 4;
-  tab-size: 4;
 }
 
 /**
 1. Correct the line height in all browsers.
 2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size (opinionated).
 */
 html {
   line-height: 1.15;
   /* 1 */
   -webkit-text-size-adjust: 100%;
   /* 2 */
+  -moz-tab-size: 4;
+  /* 3 */
+  tab-size: 4;
+  /* 3 */
 }
 
 /*
@@ -37,17 +33,14 @@ Sections
 ========
 */
 /**
-Remove the margin in all browsers.
+1. Remove the margin in all browsers.
+2. Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
 */
 body {
   margin: 0;
-}
-
-/**
-Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
-*/
-body {
+  /* 1 */
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  /* 2 */
 }
 
 /*
@@ -164,11 +157,9 @@ textarea {
 
 /**
 Remove the inheritance of text transform in Edge and Firefox.
-1. Remove the inheritance of text transform in Firefox.
 */
 button,
 select {
-  /* 1 */
   text-transform: none;
 }
 
@@ -304,6 +295,90 @@ tbody {
   border-width: 1px;
 }
 
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 200;
+  src: url("../fonts/Nunito-ExtraLight.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/Nunito-Light.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Nunito-Regular.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/Nunito-SemiBold.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/Nunito-Bold.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 800;
+  src: url("../fonts/Nunito-ExtraBold.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/Nunito-Black.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 200;
+  src: url("../fonts/Nunito-ExtraLightItalic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 300;
+  src: url("../fonts/Nunito-LightItalic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/Nunito-Italic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 600;
+  src: url("../fonts/Nunito-SemiBoldItalic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 700;
+  src: url("../fonts/Nunito-BoldItalic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 800;
+  src: url("../fonts/Nunito-ExtraBoldItalic.ttf");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: italic;
+  font-weight: 900;
+  src: url("../fonts/Nunito-BlackItalic.ttf");
+}
 .login, .home, .main, .footer-wrapper, .header-wrapper {
   width: 100%;
 }
@@ -326,6 +401,10 @@ tbody {
   .login, .home, .main, .footer-wrapper, .header-wrapper {
     max-width: 80rem;
   }
+}
+
+.text-center {
+  text-align: center;
 }
 
 .header {
@@ -759,11 +838,27 @@ tbody {
 }
 .form__buttons {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 .form__buttons :not(:last-child) {
   margin-right: 0.25rem;
+}
+
+.alert, .alert-success, .alert-danger {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+.alert-danger {
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+}
+.alert-success {
+  color: #155724;
+  border: 1px solid #d4edda;
+  background-color: #c3e6cb;
 }
 
 .home {
@@ -965,3 +1060,5 @@ tbody {
   color: #dc2828;
   text-align: center;
 }
+
+/*# sourceMappingURL=style.css.map */
