@@ -1,0 +1,23 @@
+@use '../abstracts' as *;
+
+.alert {
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+
+  &-danger {
+    @extend .alert;
+
+    color: hsl(354.4, 60.6%, 27.8%);
+    border: 1px solid hsl(353.6, 70.1%, 86.9%);
+    background-color: hsl(354.5, 70.2%, 90.8%);
+  }
+
+  &-success {
+    @extend .alert;
+
+    color: hsl(133.6, 61.1%, 21.2%);
+    border: 1px solid hsl(134.4, 41%, 88%);
+    background-color: hsl(133.7, 41.2%, 83.3%);
+  }
+}
