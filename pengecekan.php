@@ -61,6 +61,15 @@ while ($ruang = $data_ruangan->fetch()) {
     }
   }
 }
+
+function sort_date(mixed $a, mixed $b)
+{
+  $date_a = strtotime($a["tanggal"]);
+  $date_b = strtotime($b["tanggal"]);
+  if ($date_a == $date_b) return 0;
+  return ($date_a < $date_b) ? 1 : -1;
+}
+usort($data, "sort_date");
 ?>
 
 <body>
