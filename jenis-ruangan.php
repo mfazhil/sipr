@@ -1,75 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="./assets/styles/style.css" />
   <title>Jenis Ruangan | SIPR</title>
 </head>
 
 <?php
 require_once __DIR__ . "/_includes/database.php";
+require_once __DIR__ . "/_includes/utils.php";
 
 session_start();
 
-$isAdmin = false;
-$error = 0;
+$is_admin = count($_SESSION) > 0 && $_SESSION["role"] === Role::ADMIN;
 
-if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") $isAdmin = true;
-
-if ($isAdmin && $_SERVER["REQUEST_METHOD"] === "POST") {
-  $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
-
-  if (filter_var($id, FILTER_VALIDATE_INT) === false) $error = 1;
-
-  if ($error === 0) {
-    $sql = $db->prepare("DELETE FROM jnsruang WHERE IdJnsRuang = :id");
-    $result = $sql->execute(["id" => $id]);
-
-    $error = $result ? 0 : 2;
+if ($is_admin && $_SERVER["REQUEST_METHOD"] === "POST") {
+  try {
+    Validate::check(["id_jenis_ruang"], $_POST);
+    $id_jenis_ruang = Validate::post_int("id_jenis_ruang");
+    $delete_jenis_ruang = $db->prepare("DELETE FROM jnsruang WHERE IdJnsRuang = :id_jenis_ruang");
+    $delete_jenis_ruang->execute(["id_jenis_ruang" => $id_jenis_ruang]);
+  } catch (Exception $e) {
+    $error = $e->getMessage();
   }
 }
 
 $data_jenis_ruang = $db->query("SELECT * FROM jnsruang");
-$no = 0;
+$row_number = 0;
 ?>
 
 <body>
-  <?php require __DIR__ . "/_includes/navbar.php"; ?>
+  <?php include __DIR__ . "/_includes/navbar.php"; ?>
 
   <main class="main">
     <header class="main__header">
       <h1>Jenis Ruangan</h1>
       <div>
-        <?php if ($isAdmin) { ?>
+        <?php if ($is_admin) { ?>
           <a href="./tambah-jenis-ruangan.php" class="button--primary small">Tambah</a>
         <?php } ?>
       </div>
     </header>
+    <?php if (!empty($error)) { ?>
+      <div class="alert-danger"><?= $error; ?></div>
+    <?php } ?>
     <table class="table">
       <thead>
         <tr>
           <th>No.</th>
           <th>Nama Jenis</th>
-          <?php if ($isAdmin) { ?>
+          <?php if ($is_admin) { ?>
             <th class="table__action">Aksi</th>
           <?php } ?>
         </tr>
       </thead>
       <tbody>
         <?php
-        while ($jenis_ruang = $data_jenis_ruang->fetch(PDO::FETCH_OBJ)) {
-          $no++;
+        while ($jenis_ruang = $data_jenis_ruang->fetch()) {
+          $row_number++;
         ?>
           <tr>
-            <th><?= $no ?></th>
-            <td><?= $jenis_ruang->NamaJnsRuang ?></td>
-            <?php if ($isAdmin) { ?>
+            <th><?= $row_number; ?></th>
+            <td><?= $jenis_ruang["NamaJnsRuang"]; ?></td>
+            <?php if ($is_admin) { ?>
               <td>
                 <form class="table__cta" method="POST">
-                  <a href="./edit-jenis-ruangan.php?id=<?= $jenis_ruang->IdJnsRuang ?>" class="button--blue small">Edit</a>
-                  <input type="hidden" name="id" value="<?= $jenis_ruang->IdJnsRuang ?>">
+                  <a href="./edit-jenis-ruangan.php?id=<?= $jenis_ruang["IdJnsRuang"]; ?>" class="button--blue small">Edit</a>
+                  <input type="hidden" name="id_jenis_ruang" value="<?= $jenis_ruang["IdJnsRuang"]; ?>">
                   <button type="submit" class="button--red small">Hapus</button>
                 </form>
               </td>
@@ -79,11 +78,16 @@ $no = 0;
         }
         ?>
 
+        <?php if ($data_jenis_ruang->rowCount() === 0) { ?>
+          <tr>
+            <td class="text-center" colspan="4">Tidak ada data.</td>
+          </tr>
+        <?php } ?>
       </tbody>
     </table>
   </main>
 
-  <?php require __DIR__ . "/_includes/footer.php"; ?>
+  <?php include __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>

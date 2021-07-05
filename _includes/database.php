@@ -7,6 +7,8 @@ $db_name = array_key_exists("MYSQL_DATABASE", $_ENV) ? $_ENV["MYSQL_DATABASE"] :
 try {
   $db = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  throw new \PDOException($e->getMessage(), (int)$e->getCode());
+  echo "Gagal mengakses database. Error :" . $e->getMessage();
+  exit;
 }

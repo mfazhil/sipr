@@ -1,49 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="./assets/styles/style.css" />
   <title>Tambah Admin | SIPR</title>
 </head>
 
 <?php
 require_once __DIR__ . "/_includes/database.php";
+require_once __DIR__ . "/_includes/utils.php";
 
 session_start();
 
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+if (count($_SESSION) === 0 || $_SESSION["role"] !== Role::ADMIN) {
   header("Location: ./");
-  exit();
+  exit;
 }
 
-$error = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
-  $password = $_POST["password"];
+  try {
+    Validate::check(["username", "password"], $_POST);
+    $username = Validate::post_string("username");
+    $password = $_POST["password"];
 
-  $sql = $db->prepare("SELECT Username FROM pengguna WHERE Username = :username LIMIT 1");
-  $sql->execute(["username" => $username]);
-  $error = $sql->fetch(PDO::FETCH_OBJ) ? 1 : $error;
+    $is_username_exists = check_username_exists($username, $db);
+    if ($is_username_exists) throw new Exception("Username $username sudah digunakan, silahkan coba yang lain.", 501);
 
-  $sql = $db->prepare("INSERT INTO pengguna (Username, Password, jnspengguna) VALUES (:username, :password, :jnspengguna)");
-  $result = false;
-  if ($error === 0) {
-    $result = $sql->execute(["username" => $username, "password" => $password, "jnspengguna" => "ADMIN"]);
-  }
+    $insert_pengguna = $db->prepare("INSERT INTO pengguna (Username, Password, jnspengguna) VALUES (:username, :password, 'ADMIN')");
+    $is_inserted = $insert_pengguna->execute(["username" => $username, "password" => $password]);
+    if ($is_inserted === false) throw new Exception("Gagal meyimpan data pengguna", 202);
 
-  if ($result !== false) {
     header("Location: ./petugas.php");
-    exit();
+    exit;
+  } catch (Exception $e) {
+    $error = $e->getMessage();
   }
-
-  $error = $error > 0 ? $error : 2;
 }
 ?>
 
 <body>
-  <?php require __DIR__ . "/_includes/navbar.php"; ?>
+  <?php include __DIR__ . "/_includes/navbar.php"; ?>
 
   <main class="main">
     <header class="main__header--no-button">
@@ -53,11 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </header>
 
     <form method="POST" class="form">
-      <?php if ($error === 1) { ?>
-        <h3 class="form__error">Username sudah terpakai</h3>
-      <?php } ?>
-      <?php if ($error === 2) { ?>
-        <h3 class="form__error">Gagal menyimpan data</h3>
+      <?php if (!empty($error)) { ?>
+        <h3 class="form__error"><?= $error; ?></h3>
       <?php } ?>
 
       <label for="username" class="form__label">Username</label>
@@ -74,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </form>
   </main>
 
-  <?php require __DIR__ . "/_includes/footer.php"; ?>
+  <?php include __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>

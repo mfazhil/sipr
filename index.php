@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="./assets/styles/style.css" />
   <title>SIPR</title>
 </head>
 
 <body>
-  <?php require __DIR__ . "/_includes/navbar.php"; ?>
+  <?php include __DIR__ . "/_includes/navbar.php"; ?>
 
   <main class="home">
-    <img class="home__image" src="./images/home-illustration.svg" alt="SIPR">
+    <img class="home__image" src="./assets/svgs/home-illustration.svg" alt="Ilustrasi diagram batang" title="Diagram Batang">
     <div class="home__content">
       <h1 class="home__title">SIPR</h1>
       <h3 class="home__subtitle">Sistem Informasi Pemeliharaan Ruangan</h3>
@@ -25,7 +25,7 @@
     </div>
   </main>
 
-  <?php require __DIR__ . "/_includes/footer.php"; ?>
+  <?php include __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>

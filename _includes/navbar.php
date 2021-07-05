@@ -1,12 +1,10 @@
 <?php
-
-if (session_id() === '') session_start();
-
+if (empty(session_id())) session_start();
 $loggedIn = false;
 
 if (count($_SESSION) > 0) {
   $loggedIn = true;
-  $role = $_SESSION["role"] === "admin" ? "Admin" : "User";
+  $role = ucfirst(strtolower($_SESSION["role"]));
 }
 function addActiveClass(String $pageName): String
 {
@@ -112,18 +110,3 @@ function addActiveClass(String $pageName): String
     </nav>
   </div>
 </header>
-
-<script>
-  const hamburgerButton = document.querySelector(".hamburger");
-  const navList = document.querySelector(".nav__list");
-
-  function handleClick() {
-    if (hamburgerButton.classList.contains("active")) {
-      hamburgerButton.classList.remove("active");
-      navList.classList.remove("active");
-    } else {
-      hamburgerButton.classList.add("active");
-      navList.classList.add("active");
-    }
-  }
-</script>

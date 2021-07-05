@@ -1,67 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="./assets/styles/style.css" />
   <title>Edit Jenis Ruangan | SIPR</title>
 </head>
 
 <?php
 require_once __DIR__ . "/_includes/database.php";
+require_once __DIR__ . "/_includes/utils.php";
 
 session_start();
 
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+if (count($_SESSION) === 0 || $_SESSION["role"] !== Role::ADMIN) {
   header("Location: ./");
-  exit();
+  exit;
 }
 
-$error = 0;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  try {
+    Validate::check(["id"], $_GET);
+    Validate::check(["nama_jenis_ruang"], $_POST);
+    $id_jenis_ruang = Validate::get_int("id");
+    $nama_jenis_ruang = Validate::post_string("nama_jenis_ruang");
 
-  $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
-  $nama = filter_input(INPUT_POST, "nama", FILTER_SANITIZE_STRING);
+    $update_jenis_ruang = $db->prepare("UPDATE jnsruang SET NamaJnsRuang = :nama_jenis_ruang WHERE IdJnsRuang = :id_jenis_ruang");
+    $is_updated = $update_jenis_ruang->execute(["id_jenis_ruang" => $id_jenis_ruang, "nama_jenis_ruang" => $nama_jenis_ruang]);
+    if ($is_updated === false) throw new Exception("Gagal menyimpan data jenis ruang", 202);
 
-  if (filter_var($id, FILTER_VALIDATE_INT) === false) $error = 1;
-
-  if ($error === 0) {
-    $sql = $db->prepare("UPDATE jnsruang SET NamaJnsRuang = :nama WHERE IdJnsRuang = :id");
-    $result = $sql->execute(["id" => $id, "nama" => $nama]);
-
-    if ($result !== false) {
-      header("Location: ./jenis-ruangan.php");
-      exit();
-    }
-
-    $error = 2;
+    header("Location: ./jenis-ruangan.php");
+    exit;
+  } catch (Exception $e) {
+    $error = $e->getMessage();
   }
 }
-$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 
-if (filter_var($id, FILTER_VALIDATE_INT) === false) {
-  header("Location: ./jenis-ruangan.php");
-  exit();
+try {
+  Validate::check(["id"], $_GET);
+  $id_jenis_ruang = Validate::get_int("id");
+  $data_jenis_ruang = $db->prepare("SELECT NamaJnsRuang FROM jnsruang WHERE IdJnsRuang = :id_jenis_ruang");
+  $data_jenis_ruang->execute(["id_jenis_ruang" => $id_jenis_ruang]);
+  $jenis_ruang = $data_jenis_ruang->fetch();
+  if ($jenis_ruang === false) throw new Exception("Jenis ruang dengan id $id_jenis_ruang tidak ditemukan.", 200);
+} catch (Exception $e) {
+  $error = $e->getMessage();
 }
-
-$sql = $db->prepare("SELECT * FROM jnsruang WHERE IdJnsRuang = :id");
-$result = $sql->execute(["id" => $id]);
-if ($result === false) {
-  header("Location: ./jenis-ruangan.php");
-  exit();
-}
-$jenis_ruangan = $sql->fetch(PDO::FETCH_OBJ);
-
-if ($jenis_ruangan === false) {
-  header("Location: ./jenis-ruangan.php");
-  exit();
-}
-
 ?>
 
 <body>
-  <?php require __DIR__ . "/_includes/navbar.php"; ?>
+  <?php include __DIR__ . "/_includes/navbar.php"; ?>
 
   <main class="main">
     <header class="main__header--no-button">
@@ -70,15 +59,11 @@ if ($jenis_ruangan === false) {
       <h1 class="main__title">Edit</h1>
     </header>
     <form method="POST" class="form">
-      <?php if ($error === 1) { ?>
-        <h3 class="form__error">Id tidak valid</h3>
+      <?php if (!empty($error)) { ?>
+        <h3 class="form__error"><?= $error; ?></h3>
       <?php } ?>
-      <?php if ($error === 2) { ?>
-        <h3 class="form__error">Gagal menyimpan data</h3>
-      <?php } ?>
-      <input type="hidden" name="id" value="<?= $jenis_ruangan->IdJnsRuang ?>">
       <label for="name" class="form__label">Nama</label>
-      <input id="name" class="form__input" type="text" name="nama" value="<?= $jenis_ruangan->NamaJnsRuang ?>" required>
+      <input id="name" class="form__input" type="text" name="nama_jenis_ruang" value="<?= $jenis_ruang["NamaJnsRuang"]; ?>" required>
 
       <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
@@ -88,7 +73,7 @@ if ($jenis_ruangan === false) {
     </form>
   </main>
 
-  <?php require __DIR__ . "/_includes/footer.php"; ?>
+  <?php include __DIR__ . "/_includes/footer.php"; ?>
 </body>
 
 </html>
