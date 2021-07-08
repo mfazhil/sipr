@@ -69,6 +69,7 @@ $row_number = 0;
             <?php if ($is_admin) { ?>
               <td>
                 <form class="table__cta" method="POST">
+                  <a href="./himpunan.php?id=<?= $prosedur["IdProsedur"]; ?>" class="button--blue small" style="background-color: gray; width: 10rem;">Lihat Himpunan</a>
                   <a href="./edit-prosedur.php?id=<?= $prosedur["IdProsedur"]; ?>" class="button--blue small">Edit</a>
                   <input type="hidden" name="id_prosedur" value="<?= $prosedur["IdProsedur"]; ?>">
                   <button type="submit" class="button--red small">Hapus</button>

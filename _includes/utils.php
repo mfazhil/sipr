@@ -42,6 +42,11 @@ abstract class Validate
   {
     return filter_input(INPUT_POST, $var_name, FILTER_SANITIZE_STRING);
   }
+
+  static function get_string(string $var_name): string
+  {
+    return filter_input(INPUT_GET, $var_name, FILTER_SANITIZE_STRING);
+  }
 }
 
 function check_username_exists(string $username, \PDO $db): bool
