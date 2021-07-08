@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Bulan Mei 2021 pada 23.05
+-- Waktu pembuatan: 08 Jul 2021 pada 19.28
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 8.0.1
 
@@ -24,6 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `himpunan`
+--
+
+CREATE TABLE `himpunan` (
+  `IdHimpunan` int(11) NOT NULL,
+  `IdProsedur` int(11) NOT NULL,
+  `NamaHimpunan` varchar(255) NOT NULL,
+  `Atas` int(11) DEFAULT NULL,
+  `Tengah` int(11) NOT NULL,
+  `Bawah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `jnsruang`
 --
 
@@ -31,6 +46,14 @@ CREATE TABLE `jnsruang` (
   `IdJnsRuang` int(11) NOT NULL,
   `NamaJnsRuang` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `jnsruang`
+--
+
+INSERT INTO `jnsruang` (`IdJnsRuang`, `NamaJnsRuang`) VALUES
+(11, 'jenis 1'),
+(12, 'jenis 2');
 
 -- --------------------------------------------------------
 
@@ -45,6 +68,17 @@ CREATE TABLE `pengecekan` (
   `Nilai` int(11) NOT NULL,
   `TglPengecekan` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `pengecekan`
+--
+
+INSERT INTO `pengecekan` (`idPengecekan`, `idPetugas`, `IdPRuang`, `Nilai`, `TglPengecekan`) VALUES
+(23, 12, 20, 1, '2021-07-05'),
+(24, 12, 21, 12, '2021-07-05'),
+(27, 12, 22, 2, '2021-07-05'),
+(28, 12, 20, 1, '2021-07-06'),
+(29, 12, 21, 2, '2021-07-06');
 
 -- --------------------------------------------------------
 
@@ -65,7 +99,8 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`IdPengguna`, `IdPetugas`, `Username`, `Password`, `jnspengguna`) VALUES
-(4, NULL, 'admin', 'admin', 'ADMIN');
+(4, NULL, 'admin', 'admin', 'ADMIN'),
+(12, 12, 'padil', '123', 'USER');
 
 -- --------------------------------------------------------
 
@@ -81,6 +116,16 @@ CREATE TABLE `petugas` (
   `NoHP` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `petugas`
+--
+
+INSERT INTO `petugas` (`IdPetugas`, `NamaPetugas`, `Jk`, `Alamat`, `NoHP`) VALUES
+(6, '123', 'laki-laki', '132', '123'),
+(7, '123', 'laki-laki', '132', '123'),
+(8, '123', 'laki-laki', '123', '123'),
+(12, 'padil', 'laki-laki', '123', '123');
+
 -- --------------------------------------------------------
 
 --
@@ -93,6 +138,14 @@ CREATE TABLE `prosedur` (
   `Keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `prosedur`
+--
+
+INSERT INTO `prosedur` (`IdProsedur`, `NamaProsedur`, `Keterangan`) VALUES
+(23, 'prosedur 1', 'asdasdad'),
+(24, 'prosedur 2', 'asdasd');
+
 -- --------------------------------------------------------
 
 --
@@ -104,6 +157,15 @@ CREATE TABLE `pruang` (
   `idruang` int(11) NOT NULL,
   `idprosedur` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `pruang`
+--
+
+INSERT INTO `pruang` (`Iddia`, `idruang`, `idprosedur`) VALUES
+(20, 25, 23),
+(21, 25, 24),
+(22, 26, 24);
 
 -- --------------------------------------------------------
 
@@ -119,8 +181,23 @@ CREATE TABLE `ruang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data untuk tabel `ruang`
+--
+
+INSERT INTO `ruang` (`IdRuang`, `IdJnsRuang`, `NamaRuang`, `Kapasitas`) VALUES
+(25, 11, 'ruang 1', 1),
+(26, 12, 'ruang 2', 2);
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `himpunan`
+--
+ALTER TABLE `himpunan`
+  ADD PRIMARY KEY (`IdHimpunan`),
+  ADD KEY `fk_prosedur_himpunan` (`IdProsedur`);
 
 --
 -- Indeks untuk tabel `jnsruang`
@@ -176,50 +253,62 @@ ALTER TABLE `ruang`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `himpunan`
+--
+ALTER TABLE `himpunan`
+  MODIFY `IdHimpunan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `jnsruang`
 --
 ALTER TABLE `jnsruang`
-  MODIFY `IdJnsRuang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `IdJnsRuang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengecekan`
 --
 ALTER TABLE `pengecekan`
-  MODIFY `idPengecekan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idPengecekan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `IdPengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IdPengguna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `IdPetugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `IdPetugas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `prosedur`
 --
 ALTER TABLE `prosedur`
-  MODIFY `IdProsedur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IdProsedur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `pruang`
 --
 ALTER TABLE `pruang`
-  MODIFY `Iddia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Iddia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `ruang`
 --
 ALTER TABLE `ruang`
-  MODIFY `IdRuang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `IdRuang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `himpunan`
+--
+ALTER TABLE `himpunan`
+  ADD CONSTRAINT `fk_prosedur_himpunan` FOREIGN KEY (`IdProsedur`) REFERENCES `prosedur` (`IdProsedur`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pengecekan`
