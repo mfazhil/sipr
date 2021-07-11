@@ -85,6 +85,7 @@ $row_number = 0;
             <?php if ($is_admin) { ?>
               <td>
                 <form class="table__cta" method="POST">
+                  <a href="./edit-rule.php?id=<?= $ruang["IdRuang"]; ?>" class="button--blue small" style="background-color: gray; width: 10rem;">Edit Rule</a>
                   <a href="./edit-data-ruangan.php?id=<?= $ruang["IdRuang"]; ?>" class="button--blue small">Edit</a>
                   <input type="hidden" name="id_ruang" value="<?= $ruang["IdRuang"]; ?>">
                   <button type="submit" class="button--red small">Hapus</button>
