@@ -21,15 +21,29 @@ if (count($_SESSION) === 0 || $_SESSION["role"] !== Role::ADMIN) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   try {
-    Validate::check(["id"], $_GET);
-    Validate::check(["nama_prosedur", "keterangan"], $_POST);
-    $id_prosedur = Validate::get_int("id");
-    $nama_prosedur = Validate::post_string("nama_prosedur");
-    $keterangan = Validate::post_string("keterangan");
-    $update_prosedur = $db->prepare("UPDATE prosedur SET NamaProsedur = :nama_prosedur, Keterangan = :keterangan WHERE IdProsedur = :id_prosedur");
-    $is_updated = $update_prosedur->execute(["id_prosedur" => $id_prosedur, "nama_prosedur" => $nama_prosedur, "keterangan" => $keterangan]);
-    if ($is_updated === false) throw new Exception("Gagal menyimpan data.", 202);
-    header("Location: ./daftar-prosedur.php");
+    Validate::check(["id", "from"], $_GET);
+    Validate::check(["nama_himpunan"], $_POST);
+
+    if (!isset($_POST["bawah"])) throw new Exception("Nilai bawah tidak boleh kosong.");
+    if (!isset($_POST["atas"])) throw new Exception("Nilai atas tidak boleh kosong.");
+
+    $id_himpunan = Validate::get_int("id");
+    $id_prosedur = Validate::get_int("from");
+    $nama_himpunan = Validate::post_string("nama_himpunan");
+    $bawah = Validate::post_int("bawah");
+    $tengah = !empty($_POST["tengah"]) ? Validate::post_int("tengah") : null;
+    $atas = Validate::post_int("atas");
+
+    if (!empty($tengah)) {
+      if ($bawah >= $tengah) throw new Exception("Nilai bawah tidak boleh sama atau lebih besar dari nilai tengah.", 600);
+      if ($tengah >= $atas) throw new Exception("Nilai tengah tidak boleh sama atau lebih besar dari nilai atas.", 600);
+    }
+    if ($bawah >= $atas) throw new Exception("Nilai bawah tidak boleh sama atau lebih besar dari nilai atas.", 600);
+
+    $update_himpunan = $db->prepare("UPDATE himpunan SET NamaHimpunan = :nama_himpunan, Bawah = :bawah, Tengah = :tengah, Atas = :atas WHERE IdHimpunan = :id_himpunan");
+    $is_updated = $update_himpunan->execute(["id_himpunan" => $id_himpunan, "nama_himpunan" => $nama_himpunan, "bawah" => $bawah, "tengah" => $tengah, "atas" => $atas]);
+    if ($is_updated === false) throw new Exception("Gagal menyimpan data.", 201);
+    header("Location: ./himpunan.php?id=$id_prosedur");
     exit;
   } catch (Exception $e) {
     $error = $e->getMessage();
