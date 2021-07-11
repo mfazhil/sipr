@@ -20,25 +20,24 @@ if (count($_SESSION) === 0 || $_SESSION["role"] !== Role::ADMIN) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  var_dump($_POST);
   try {
     Validate::check(["id"], $_GET);
     Validate::check(["nama_himpunan"], $_POST);
 
-    if (!isset($_POST["bawah"])) throw new Exception("`bawah` tidak boleh kosong.");
-    if (!isset($_POST["tengah"])) throw new Exception("`tengah` tidak boleh kosong.");
+    if (!isset($_POST["bawah"])) throw new Exception("Nilai bawah tidak boleh kosong.");
+    if (!isset($_POST["atas"])) throw new Exception("Nilai atas tidak boleh kosong.");
 
     $id_prosedur = Validate::get_int("id");
     $nama_himpunan = Validate::post_string("nama_himpunan");
     $bawah = Validate::post_int("bawah");
-    $tengah = Validate::post_int("tengah");
-    $atas = !empty($_POST["atas"]) ? Validate::post_int("atas") : null;
+    $tengah = !empty($_POST["tengah"]) ? Validate::post_int("tengah") : null;
+    $atas = Validate::post_int("atas");
 
-    if (!empty($atas)) {
-      if ($bawah >= $atas) throw new Exception("Nilai bawah tidak boleh sama atau lebih besar dari nilai atas.", 600);
+    if (!empty($tengah)) {
+      if ($bawah >= $tengah) throw new Exception("Nilai bawah tidak boleh sama atau lebih besar dari nilai tengah.", 600);
       if ($tengah >= $atas) throw new Exception("Nilai tengah tidak boleh sama atau lebih besar dari nilai atas.", 600);
     }
-    if ($tengah <= $bawah) throw new Exception("Nilai tengah tidak boleh sama atau lebih kecil dari nilai bawah.", 600);
+    if ($bawah >= $atas) throw new Exception("Nilai bawah tidak boleh sama atau lebih besar dari nilai atas.", 600);
 
     $insert_himpunan = $db->prepare("INSERT INTO himpunan (IdProsedur, NamaHimpunan, Bawah, Tengah, Atas) VALUES (:id_prosedur, :nama_himpunan, :bawah, :tengah, :atas)");
     $is_inserted = $insert_himpunan->execute(["id_prosedur" => $id_prosedur, "nama_himpunan" => $nama_himpunan, "bawah" => $bawah, "tengah" => $tengah, "atas" => $atas]);
@@ -78,10 +77,10 @@ try {
       <input id="bawah" class="form__input" type="number" min="0" name="bawah" required>
 
       <label for="tengah" class="form__label">Nilai Tengah</label>
-      <input id="tengah" class="form__input" type="number" min="0" name="tengah" required>
+      <input id="tengah" class="form__input" type="number" min="0" name="tengah">
 
       <label for="atas" class="form__label">Nilai Atas</label>
-      <input id="atas" class="form__input" type="number" min="0" name="atas">
+      <input id="atas" class="form__input" type="number" min="0" name="atas" required>
 
       <div class="form__buttons">
         <button type="submit" class="button--blue small">Simpan</button>
