@@ -107,7 +107,12 @@ try {
           echo $text;
           ?>
         </label>
-        <input id="<?= $key1; ?>" class="form__input" type="text" name="<?= $key1; ?>" <?= !empty($rules[$key1]) ? "value=\"" . $rules[$key1]["Rule"] . "\"" : null; ?> required>
+        <select id="<?= $key1; ?>" class="form__input" name="<?= $key1; ?>" required>
+          <option value="">Pilih kelayakan ruang</option>
+          <option value="Tidak Layak" <?= !empty($rules[$key1]) && $rules[$key1]["Rule"] === "Tidak Layak" ? "selected" : null; ?>>Tidak Layak</option>
+          <option value="Layak" <?= !empty($rules[$key1]) && $rules[$key1]["Rule"] === "Layak" ? "selected" : null; ?>>Layak</option>
+          <option value="Sangat Layak" <?= !empty($rules[$key1]) && $rules[$key1]["Rule"] === "Sangat Layak" ? "selected" : null; ?>>Sangat Layak</option>
+        </select>
       <?php } ?>
 
       <div class="form__buttons">
