@@ -138,7 +138,7 @@ $admin_row_number = 0;
           ?>
             <tr>
               <th><?= $admin_row_number; ?></th>
-              <td><?= $admin["Username"]; ?></td>
+              <td <?= !($is_admin && $data_admin->rowCount() > 1 && $_SESSION["id"] === $admin["IdPengguna"]) ? "colspan=\"2\"" : null; ?>><?= $admin["Username"]; ?></td>
               <?php if ($is_admin && $data_admin->rowCount() > 1 && $_SESSION["id"] === $admin["IdPengguna"]) { ?>
                 <td>
                   <form class="table__cta" method="POST">
