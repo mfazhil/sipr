@@ -89,14 +89,11 @@ while ($ruang = $data_ruangan->fetch()) {
         $jumlah_himpunan = $data_himpunan->rowCount();
         $urutan = 1;
         while ($himpunan = $data_himpunan->fetch()) {
-          if ($himpunan["Bawah"] <= $pengecekan["Nilai"] && $pengecekan["Nilai"] <= $himpunan["Atas"]) {
-            array_push($keanggotaan, array_merge($himpunan, ["urutan" => $urutan]));
-          }
+          array_push($keanggotaan, array_merge($himpunan, ["urutan" => $urutan]));
           array_push($arr_id_himpunan, $himpunan["IdHimpunan"]);
           $urutan++;
         }
         array_push($list_id_himpunan, $arr_id_himpunan);
-
         foreach ($keanggotaan as $fungsi) {
           $id_himpunan = $fungsi["IdHimpunan"];
           if ($pengecekan["Nilai"] <= $fungsi["Bawah"]) {
