@@ -2,13 +2,12 @@
 
 > Sistem Informasi Pemeliharaan Ruangan
 
-Sebuah sistem untuk menjaga kebersihan dan kesterilan ruangan di rumah sakit pada masa pandemi. Perhitungan dilakukan menggunakan algoritma fuzzy
+Sebuah sistem untuk menjaga kebersihan dan kesterilan ruangan di rumah sakit pada masa pandemi. Perhitungan dilakukan menggunakan algoritma fuzzy.
 
 ## 🖥️
 
 - [PHP](https://www.php.net/)
 - [MariaDB](https://mariadb.org/)
-- [Sass](https://sass-lang.com/)
 
 ## 👏
 
